@@ -1,0 +1,8 @@
+# venv files
+.simplyServe/
+
+# vs code files
+.vscode/
+
+# cache
+__pycache__/
