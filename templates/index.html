@@ -16,7 +16,7 @@
 <body>
     <div id="app">
         {{message}} <br>
-        <button v-bind:disabled="disable_back()" v-on:click="navigate_back()">Back</button> <br>
+        <button v-bind:disabled="disable_back" v-on:click="navigate_back()">Back</button> <br>
         Dirs: <br>
         <ol>
             <li v-for="dir in current_dirs"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div></li>

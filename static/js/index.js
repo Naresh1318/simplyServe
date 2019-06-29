@@ -47,11 +47,15 @@ var app = new Vue({
             let previous_dir = app.navigation_stack.pop()
             app.current_dir = previous_dir
             app.list_dir(app.current_dir)
+            if (app.navigation_stack.length < 1)
+                app.disable_back = true
         },
         navigate_to: function(dir) {
             app.navigation_stack.push(app.current_dir)
             app.current_dir = app.current_dir + "/" + dir
             app.list_dir(app.current_dir)
+            if (app.navigation_stack.length > 0)
+                app.disable_back = false
         }
     },
     created: function() {
