@@ -56,6 +56,9 @@ var app = new Vue({
             app.list_dir(app.current_dir)
             if (app.navigation_stack.length > 0)
                 app.disable_back = false
+        },
+        get_file_link: function(file) {
+            return "/static/linked_dir/" + file 
         }
     },
     created: function() {

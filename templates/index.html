@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>simplyServe</title>
 
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -19,12 +19,12 @@
         <button v-bind:disabled="disable_back" v-on:click="navigate_back()">Back</button> <br>
         Dirs: <br>
         <ol>
-            <li v-for="dir in current_dirs"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div></li>
+            <li v-for="dir in current_dirs"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div> </li>
         </ol>
 
         Files: <br>
         <ol>
-            <li v-for="file in current_files"> {{ file }} </li>
+            <li v-for="file in current_files"> <a :href="get_file_link(file)" download> {{ file }} </a> </li>
         </ol>
     </div>
 </body>
