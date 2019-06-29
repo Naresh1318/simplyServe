@@ -8,18 +8,25 @@
 
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 </head>
 <body>
     <div id="app">
-        {{ message }}
+        {{message}} <br>
+        <button v-bind:disabled="disable_back()" v-on:click="navigate_back()">Back</button> <br>
+        Dirs: <br>
+        <ol>
+            <li v-for="dir in current_dirs"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div></li>
+        </ol>
+
+        Files: <br>
+        <ol>
+            <li v-for="file in current_files"> {{ file }} </li>
+        </ol>
     </div>
 </body>
-<script> 
-var app = new Vue({
-    el: "#app",
-    data: {
-        message: "Test!!!"
-    }
-})
-</script>
+<script src="/static/js/index.js"></script>
 </html>
