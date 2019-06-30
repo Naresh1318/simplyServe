@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, render_template, request, send_from_directory, url_for
+from flask import Flask, jsonify, render_template, request
 
 
 # Change jinja template syntax
@@ -20,6 +20,7 @@ os.symlink(default_path, symbolic_path)
 default_path = os.path.abspath(symbolic_path)
 
 app = CustomFlask(__name__)  # This replaces your existing "app = Flask(__name__)"
+
 
 def list_files_n_dirs(path: str):
     """Returns a list of files and directories from the path
@@ -76,4 +77,3 @@ def ls():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
