@@ -61,17 +61,17 @@ def default_dir():
 
 @app.route("/ls")
 def ls():
-    """Returns a JSON object contatining files and folders from the desired path.
-    Path must be passsed as the request URL parameters with the key 'path'
+    """Returns a JSON object containing files and folders from the desired path.
+    Path must be passed as the request URL parameters with the key 'path'
     
     Returns:
         JSON: {"files": an object containing all the files with numeric indices as keys
                "dirs": an object containing all the directories with numeric indices as keys}
     """
     dir_path = request.args.get("path")
-    dir_files , dir_dirs = list_files_n_dirs(dir_path)
+    dir_files, dir_dirs = list_files_n_dirs(dir_path)
     response = {"files": {i: j for i, j in enumerate(dir_files)},
-                "dirs": {i: j for i,j in enumerate(dir_dirs)}}
+                "dirs": {i: j for i, j in enumerate(dir_dirs)}}
     return jsonify(response) 
 
 
