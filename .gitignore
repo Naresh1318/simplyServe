@@ -6,3 +6,6 @@
 
 # cache
 __pycache__/
+
+# junk files
+play_ground/
