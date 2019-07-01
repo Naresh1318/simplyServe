@@ -1,20 +1,11 @@
 import os
-from flask_login import login_required, login_user, logout_user, current_user
-from werkzeug.security import check_password_hash
+from flask_login import login_required, current_user
 from flask import jsonify, render_template, request, redirect, url_for, send_file, Blueprint
-
-from .models import DBUser, add_user
 
 
 bp = Blueprint("file_manager", __name__)
 
-# Create symbolic link to the required path, this is needed to download files in the appropriate format
-default_path: str = os.environ.get("SERVE_DIR")
-symbolic_path = "./static/linked_dir"
-if os.path.exists(symbolic_path):
-    os.remove(symbolic_path)
-os.symlink(default_path, symbolic_path)
-default_path = os.path.abspath(symbolic_path)
+default_path = os.path.abspath("./static/linked_dir")
 
 
 def list_files_n_dirs(path: str):
@@ -44,51 +35,7 @@ def home():
     if current_user.is_authenticated:
         return render_template("./index.html")
     else:
-        return redirect(url_for("file_manager.login"))
-
-
-@bp.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "GET":
-        return render_template("./login.html")
-
-    email = request.form["email"]
-    password = request.form["password"]
-
-    user = DBUser.query.filter_by(email=email).first()
-
-    if not user or not check_password_hash(user.password, password):
-        return "Bad guy ;)"
-
-    login_user(user, remember=True)
-    return redirect(url_for("file_manager.home"))
-
-
-@bp.route("/logout")
-def logout():
-    if current_user.is_authenticated:
-        message = f"{current_user.username} logged out"
-        logout_user()
-        return message
-    return redirect(url_for("file_manager.login"))
-
-
-@bp.route("/admin", methods=["POST", "GET"])
-@login_required
-def admin():
-    if current_user.username != "nn":  # TODO: change this to admin
-        return redirect(url_for("file_manager.login"))
-    if request.method == "GET":
-        return render_template("admin.html")
-    email = request.form["email"]
-    password = request.form["password"]
-    username = request.form["username"]
-
-    user = DBUser.query.filter_by(email=email).first()
-    if not user:
-        add_user(email, password, username)
-        return f"{username} added!"
-    return "Email id taken"
+        return redirect(url_for("auth.login"))
 
 
 @bp.route("/default_dir")
@@ -125,4 +72,4 @@ def serve_file(path):
     if current_user.is_authenticated:
         if os.path.exists(path):
             return send_file(path, as_attachment=True)
-    return redirect(url_for("file_manager.login"))
+    return redirect(url_for("auth.login"))  # TODO: This redirection causes the login page to be downloaded

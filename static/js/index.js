@@ -73,7 +73,7 @@ let app = new Vue({
          * @param {string} file file path relative to home/default directory
          */
         get_file_link: function(file) {
-            return "/static/linked_dir/" + file 
+            return this.current_dir.split("simplyServe")[1] + "/"  + file
         }
     },
     /**
