@@ -9,7 +9,8 @@ from .models import DBUser
 bp = Blueprint("file_manager", __name__)
 
 # Create symbolic link to the required path, this is needed to download files in the appropriate format
-default_path: str = "/home/naresh/Downloads"
+# default_path: str = "/home/naresh/Downloads"
+default_path: str = os.environ.get("SERVE_DIR")
 symbolic_path = "./static/linked_dir"
 if os.path.exists(symbolic_path):
     os.remove(symbolic_path)
