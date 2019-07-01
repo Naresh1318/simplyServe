@@ -1,4 +1,6 @@
+import os
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 from . import db
 
 
@@ -10,3 +12,15 @@ class DBUser(UserMixin, db.Model):
 
     def __repr__(self):
         return f"<DBUser: {self.username}>"
+
+
+def add_user(email, password, name):
+    user = DBUser(email=email, password=generate_password_hash(password), username=name)
+    db.session.add(user)
+    db.session.commit()
+
+
+# Run db.create_all() at this line to generate the required tables
+db_path = os.path.join(os.path.dirname(__file__), "database/users.db")
+if not os.path.exists(db_path):
+    db.create_all()

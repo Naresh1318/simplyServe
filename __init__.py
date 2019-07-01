@@ -14,12 +14,19 @@ class CustomFlask(Flask):
     ))
 
 
+# db must be initialized here for other files to access it
 db_path = os.path.join(os.path.dirname(__file__), "database/users.db")
 db = SQLAlchemy()
 
 
 def create_app():
+    """
+    Creates and configures the flask app
+
+    """
+    # This must be imported here to avoid the chicken and the egg problem
     from . import file_manager
+
     db_uri = f"sqlite:///{db_path}"
 
     app = CustomFlask(__name__, instance_relative_config=True)
@@ -29,9 +36,11 @@ def create_app():
     app.register_blueprint(file_manager.bp)
     app.add_url_rule("/", endpoint="home")
 
+    # Initialize login manager
     login_manager = LoginManager()
     login_manager.init_app(app)
 
+    # Initialize database
     db.init_app(app)
 
     from .models import DBUser
