@@ -60,15 +60,19 @@ def ls():
                "dirs": an object containing all the directories with numeric indices as keys}
     """
     dir_path = request.args.get("path")
+    if "linked_dir" not in dir_path or ".." in dir_path or "~" in dir_path:
+        return redirect(url_for("file_manager.home"))
     dir_files, dir_dirs = list_files_n_dirs(dir_path)
     response = {"files": {i: j for i, j in enumerate(dir_files)},
                 "dirs": {i: j for i, j in enumerate(dir_dirs)}}
-    return jsonify(response) 
+    return jsonify(response)
 
 
 @bp.route("/static/linked_dir/<path:path>")
 def serve_file(path):
     path = os.path.join("./static/linked_dir", path)
+    if ".." in path or "~" in path:
+        return redirect(url_for("file_manager.home"))
     if current_user.is_authenticated:
         if os.path.exists(path):
             return send_file(path, as_attachment=True)
