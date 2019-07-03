@@ -4,17 +4,52 @@
 
 {% block content %}
 <div id="app">
-    {{message}} <br>
-    <button v-bind:disabled="disable_back" v-on:click="navigate_back()">Back</button> <br>
-    Dirs: <br>
-    <ol>
-        <li v-for="dir in current_dirs"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div> </li>
-    </ol>
+<vs-row>
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12" style="margin: 10px">
+        {{message}} <br>
+    </vs-col>
+</vs-row>
 
-    Files: <br>
-    <ol>
-        <li v-for="file in current_files"> <a :href="get_file_link(file)" download> {{ file }} </a> </li>
-    </ol>
+<vs-row>
+    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
+        <vs-button color="primary" type="filled" v-bind:disabled="disable_back" v-on:click="navigate_back()">Back</vs-button> <br>
+    </vs-col>
+    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
+        <vs-button color="primary" type="filled" href="/logout">Logout</vs-button>
+    </vs-col>
+    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
+        <vs-button color="primary" type="filled" href="/admin">Admin</vs-button>
+    </vs-col>
+</vs-row>
+
+<vs-row>
+    <vs-col vs-w="3" style="padding: 1rem">
+        <vs-row>
+            <vs-col vs-justify="center" vs-align="center" vs-w="12">
+                <vs-list>
+                    <vs-list-header title="Directories"></vs-list-header>
+                    <vs-list-item v-for="dir in current_dirs" style="text-align: center"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div> </vs-list-item>
+                </vs-list>
+            </vs-col>
+        </vs-row>
+
+        <vs-row>
+            <vs-col vs-justify="center" vs-align="center" vs-w="12">
+                <vs-list>
+                    <vs-list-header title="Files"></vs-list-header>
+                    <vs-list-item v-for="file in current_files"> <a :href="get_file_link(file)" download> {{ file }} </a> </vs-list-item>
+                </vs-list>
+            </vs-col>
+        </vs-row>
+    </vs-col>
+
+    <vs-col vs-justify="center" vs-align="center" vs-w="9" style="padding: 0.5rem">
+        <p style="text-align: center">
+            HTML here
+        </p>
+    </vs-col>
+</vs-row>
+
 </div>
 <script src="/static/js/index.js"></script>
 {% endblock %}
