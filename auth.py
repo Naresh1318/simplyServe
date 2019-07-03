@@ -37,7 +37,7 @@ def logout():
 @login_required
 def admin():
     if current_user.username != "nn":  # TODO: change this to admin
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("file_manager.home"))
     if request.method == "GET":
         return render_template("admin.html")
     email = request.form["email"]
