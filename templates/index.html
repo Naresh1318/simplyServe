@@ -3,10 +3,21 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
+<style>
+.vs-list--slot {
+    margin-left: 0;
+}
+</style>
 <div id="app">
 <vs-row>
-    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="12" style="margin: 10px">
-        {{message}} <br>
+    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="9" style="margin: 10px">
+        <img src="/static/img/test_logo.jpg" width="4%"/>
+    </vs-col>
+    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
+        <vs-button color="primary" type="filled" href="/admin">Admin</vs-button>
+    </vs-col>
+    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
+        <vs-button color="primary" type="filled" href="/logout">Logout</vs-button>
     </vs-col>
 </vs-row>
 
@@ -15,10 +26,7 @@
         <vs-button color="primary" type="filled" v-bind:disabled="disable_back" v-on:click="navigate_back()">Back</vs-button> <br>
     </vs-col>
     <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button color="primary" type="filled" href="/logout">Logout</vs-button>
-    </vs-col>
-    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button color="primary" type="filled" href="/admin">Admin</vs-button>
+        <vs-button color="primary" type="filled" v-on:click="navigate_to(default_dir, abs_path=true)">Home</vs-button> <br>
     </vs-col>
 </vs-row>
 
@@ -28,7 +36,7 @@
             <vs-col vs-justify="center" vs-align="center" vs-w="12">
                 <vs-list>
                     <vs-list-header title="Directories"></vs-list-header>
-                    <vs-list-item v-for="dir in current_dirs" style="text-align: center"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div> </vs-list-item>
+                    <vs-list-item v-for="dir in current_dirs" style="margin-left: 0"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div> </vs-list-item>
                 </vs-list>
             </vs-col>
         </vs-row>

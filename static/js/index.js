@@ -59,18 +59,23 @@ let app = new Vue({
         },
         /**
          * Sets current_dir to the required dir and updates navigation_stack
-         * @param {string} dir directory to navigate to
+         * @param {string} dir, directory to navigate to
+         * @param {boolean} abs_path, true  -> dir is an absolute path
+         *                            false -> dir is relative to current_dir
          */
-        navigate_to: function(dir) {
+        navigate_to: function(dir, abs_path=false) {
             app.navigation_stack.push(app.current_dir)
-            app.current_dir = app.current_dir + "/" + dir
+            if (abs_path)
+                app.current_dir = app.default_dir
+            else
+                app.current_dir = app.current_dir + "/" + dir
             app.list_dir(app.current_dir)
             if (app.navigation_stack.length > 0)
                 app.disable_back = false
         },
         /**
          * Returns link to the required file on the server
-         * @param {string} file file path relative to home/default directory
+         * @param {string} file, file path relative to home/default directory
          */
         get_file_link: function(file) {
             return this.current_dir.split("simplyServe")[1] + "/"  + file
