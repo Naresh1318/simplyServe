@@ -1,9 +1,10 @@
 from werkzeug.security import check_password_hash
-from flask import request, render_template, Blueprint, redirect, url_for
+from flask import request, render_template, Blueprint, redirect, url_for, jsonify
 from flask_login import logout_user, login_user, current_user, login_required
 
 from .models import DBUser, add_user
 
+admin_username = "nn"
 bp = Blueprint("auth", __name__)
 
 
@@ -36,7 +37,7 @@ def logout():
 @bp.route("/admin", methods=["POST", "GET"])
 @login_required
 def admin():
-    if current_user.username != "nn":  # TODO: change this to admin
+    if current_user.username != admin_username:  # TODO: change this to admin
         return redirect(url_for("file_manager.home"))
     if request.method == "GET":
         return render_template("admin.html")
@@ -49,3 +50,12 @@ def admin():
         add_user(email, password, username)
         return f"{username} added!"
     return "Email id taken"
+
+
+@bp.route("/is_admin", methods=["GET"])
+@login_required
+def is_admin():
+    if current_user.username != admin_username:
+        return jsonify({"admin": False})
+    else:
+        return jsonify({"admin": True})

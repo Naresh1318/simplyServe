@@ -3,6 +3,7 @@ let app = new Vue({
     data: {
         message: "Test!!!",
         index_html_file: ".index.html",
+        admin: false,
         default_dir: "",
         current_dir: "",
         current_dirs: {},
@@ -12,7 +13,7 @@ let app = new Vue({
     },
     methods: {
         /**
-        * Gets and sets the default home directory
+        * Gets and sets the default home directory. Also, check if current user is the admin
         */
         initial_setup: function() {
             axios.get("/default_dir")
@@ -25,6 +26,7 @@ let app = new Vue({
             })
             .then(function () {
                 app.list_dir(app.current_dir)
+                app.is_admin()
             })
         },
         /**
@@ -101,6 +103,12 @@ let app = new Vue({
                 console.log("INFO: " + message)
                 index_viewer.innerHTML = `<p> ${message} <p>`
             }
+        },
+        is_admin: function () {
+            axios("/is_admin")
+                .then(function (response) {
+                    app.admin = response["data"]["admin"]
+                })
         }
     },
     /**
