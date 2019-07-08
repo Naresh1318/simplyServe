@@ -2,6 +2,7 @@ let app = new Vue({
     el: "#app",
     data: {
         message: "Test!!!",
+        index_html_file: ".index.html",
         default_dir: "",
         current_dir: "",
         current_dirs: {},
@@ -16,20 +17,20 @@ let app = new Vue({
         initial_setup: function() {
             axios.get("/default_dir")
             .then(function (response) {
-                console.log(response)
                 app.default_dir = response["data"]["default_dir"]
                 app.current_dir = app.default_dir
             })
             .catch(function (error) {
-                console.log(error)
+                console.log("ERROR: " + error)
             })
             .then(function () {
                 app.list_dir(app.current_dir)
             })
         },
         /**
-        * Retrives and sets current_dirs and current_files variables 
-        * @param {string} path path to retrive and list files/dirs from 
+        * Retrieves and sets current_dirs and current_files variables. Index files rendering function is called
+        * after obtaining the current files in the directory.
+        * @param {string} path path to retrieve and list files/dirs from
         */
         list_dir: function(path) {
             return axios.get("/ls", {
@@ -38,21 +39,20 @@ let app = new Vue({
                         }
                    })
                    .then(function (response) {
-                        console.log(response)
                         app.current_dirs = response["data"]["dirs"]
                         app.current_files = response["data"]["files"]
+                        app.render_index();  // Render index file if present
                         return
                    })
                    .catch(function (error) {
-                        console.log(error)
+                        console.log("ERROR: " + error)
                    })
         },
         /**
          * Sets current_dir to the previous dir and updates navigation_stack
          */
         navigate_back: function() {
-            let previous_dir = app.navigation_stack.pop()
-            app.current_dir = previous_dir
+            app.current_dir = app.navigation_stack.pop()
             app.list_dir(app.current_dir)
             if (app.navigation_stack.length < 1)
                 app.disable_back = true
@@ -74,6 +74,28 @@ let app = new Vue({
          */
         get_file_link: function(file) {
             return this.current_dir.split("simplyServe")[1] + "/"  + file
+        },
+        /**
+         * Get and sets the render_index div to the contents of .index.html file in the current directory
+         */
+        render_index: function() {
+            let l_current_files = Object.values(this.current_files)
+            let index_viewer = document.getElementById("index_viewer")
+            if (l_current_files.includes(app.index_html_file)) {
+                let file_link = this.get_file_link(app.index_html_file)
+                axios.get(file_link)
+                    .then(function (response) {
+                        index_viewer.innerHTML = response["data"]
+                    })
+                    .catch(function (error) {
+                        console.log("ERROR: " + error)
+                    })
+            }
+            else {
+                let message = `.index.html file not found in ${app.current_dir}`
+                console.log("INFO: " + message)
+                index_viewer.innerHTML = `<p> ${message} <p>`
+            }
         }
     },
     /**
