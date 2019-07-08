@@ -21,6 +21,13 @@ a:visited {
     text-decoration: none;
     color: black;
 }
+.vs-con-table table {
+    font-size: 1rem;
+}
+
+.vs-con-table table:hover {
+    cursor: pointer;
+}
 </style>
 <div id="app">
 <vs-row>
@@ -51,29 +58,55 @@ a:visited {
     <vs-col vs-w="3" style="padding: 1rem">
         <vs-row>
             <vs-col vs-justify="center" vs-align="center" vs-w="12">
-                <vs-list>
-                    <vs-list-header title="Directories" style="color: black"></vs-list-header>
-                    <div style="overflow: auto; height: 30%;">
-                        <vs-list-item v-for="dir in current_dirs" style="margin-left: 0;">
-                            <div class="file_list_item" v-on:click="navigate_to(dir)"> {{ dir }} </div>
-                        </vs-list-item>
-                    </div>
-                </vs-list>
+                <vs-table :data="current_dirs" pagination search>
+                    <template slot="header">
+                        <h3> Directories </h3>
+                    </template>
+
+                    <template slot="thead">
+                        <vs-th sort-key="name">Name</vs-th>
+                        <vs-th>Size</vs-th>
+                    </template>
+
+                    <template slot-scope="{data}">
+                        <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                            <vs-td :data="data[indextr].name">
+                                <div class="file_list_item" v-on:click="navigate_to(data[indextr].name)"> {{ data[indextr].name }} </div>
+                            </vs-td>
+                            <vs-td>
+                                0 KB
+                            </vs-td>
+                        </vs-tr>
+                    </template>
+                </vs-table>
             </vs-col>
         </vs-row>
 
         <vs-row>
             <vs-col vs-justify="center" vs-align="center" vs-w="12">
-                <vs-list>
-                    <vs-list-header title="Files" style="color: black"></vs-list-header>
-                    <div style="overflow: auto; height: 500px">
-                        <vs-list-item v-for="file in current_files" style="margin-left: 0; overflow: auto">
-                            <div class="file_list_item">
-                                <a :href="get_file_link(file)" download> {{ file }} </a>
-                            </div>
-                    </vs-list-item>
-                    </div>
-                </vs-list>
+                <vs-table :data="current_files" pagination search>
+                    <template slot="header">
+                        <h3> Files </h3>
+                    </template>
+
+                    <template slot="thead">
+                        <vs-th sort-key="name">Name</vs-th>
+                        <vs-th>Size</vs-th>
+                    </template>
+
+                    <template slot-scope="{data}">
+                        <vs-tr :key="indextr" v-for="(tr, indextr) in data" >
+                            <vs-td :data="data[indextr].name">
+                                <div class="file_list_item">
+                                    <a :href="get_file_link(data[indextr].name)" download> {{ data[indextr].name }} </a>
+                                </div>
+                            </vs-td>
+                            <vs-td>
+                                0 KB
+                            </vs-td>
+                        </vs-tr>
+                    </template>
+                </vs-table>
             </vs-col>
         </vs-row>
     </vs-col>
