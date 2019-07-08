@@ -87,7 +87,10 @@ let app = new Vue({
          * Get and sets the render_index div to the contents of .index.html file in the current directory
          */
         render_index: function() {
-            let l_current_files = Object.values(this.current_files)
+            let l_current_files = []
+            for (let file of this.current_files) {
+                l_current_files.push(file.name)
+            }
             let index_viewer = document.getElementById("index_viewer")
             if (l_current_files.includes(app.index_html_file)) {
                 let file_link = this.get_file_link(app.index_html_file)
@@ -105,12 +108,18 @@ let app = new Vue({
                 index_viewer.innerHTML = `<p> ${message} <p>`
             }
         },
+        /**
+         *
+         */
         is_admin: function () {
             axios("/is_admin")
                 .then(function (response) {
                     app.admin = response["data"]["admin"]
                 })
         },
+        /**
+         *
+         */
         get_username: function () {
             axios("/get_username")
                 .then(function (response) {
