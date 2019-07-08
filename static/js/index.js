@@ -1,8 +1,8 @@
 let app = new Vue({
     el: "#app",
     data: {
-        message: "Test!!!",
         index_html_file: ".index.html",
+        username: "",
         admin: false,
         default_dir: "",
         current_dir: "",
@@ -27,6 +27,7 @@ let app = new Vue({
             .then(function () {
                 app.list_dir(app.current_dir)
                 app.is_admin()
+                app.get_username()
             })
         },
         /**
@@ -108,6 +109,12 @@ let app = new Vue({
             axios("/is_admin")
                 .then(function (response) {
                     app.admin = response["data"]["admin"]
+                })
+        },
+        get_username: function () {
+            axios("/get_username")
+                .then(function (response) {
+                    app.username = response["data"]["username"]
                 })
         }
     },

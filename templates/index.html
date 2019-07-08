@@ -7,26 +7,43 @@
 .vs-list--slot {
     margin-left: 0;
 }
+
+.file_list_item {
+    padding: 0.5rem;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
 </style>
 <div id="app">
 <vs-row>
-    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="9" style="margin: 10px">
+    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="9">
         <img src="/static/img/test_logo.jpg" width="4%"/>
     </vs-col>
-    <vs-col v-if="admin" vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button color="primary" type="filled" href="/admin">Admin</vs-button>
+    <vs-col v-if="admin" vs-align="center" vs-w="1" style="padding: 1rem">
+        <vs-button color="dark" type="filled" href="/admin">Admin</vs-button>
     </vs-col>
-    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button color="primary" type="filled" href="/logout">Logout</vs-button>
+    <vs-col vs-type="flex" vs-align="center" vs-w="1" style="padding: 1rem">
+        <vs-button color="dark" type="filled" href="/logout">Logout</vs-button>
+    </vs-col>
+    <vs-col vs-type="flex" vs-align="center" vs-w="1" style="padding: 1rem">
+        {{ username }}
     </vs-col>
 </vs-row>
 
 <vs-row>
     <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button color="primary" type="filled" v-bind:disabled="disable_back" v-on:click="navigate_back()">Back</vs-button> <br>
+        <vs-button v-bind:disabled="disable_back" v-on:click="navigate_back()" radius color="dark" type="flat" icon="arrow_back"></vs-button>
     </vs-col>
     <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button color="primary" type="filled" v-on:click="navigate_to(default_dir, abs_path=true)">Home</vs-button> <br>
+        <vs-button v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" type="flat" icon="home"></vs-button>
     </vs-col>
 </vs-row>
 
@@ -35,8 +52,12 @@
         <vs-row>
             <vs-col vs-justify="center" vs-align="center" vs-w="12">
                 <vs-list>
-                    <vs-list-header title="Directories"></vs-list-header>
-                    <vs-list-item v-for="dir in current_dirs" style="margin-left: 0"> <div v-on:click="navigate_to(dir)"> {{ dir }} </div> </vs-list-item>
+                    <vs-list-header title="Directories" style="color: black"></vs-list-header>
+                    <div style="overflow: auto; height: 30%;">
+                        <vs-list-item v-for="dir in current_dirs" style="margin-left: 0;">
+                            <div class="file_list_item" v-on:click="navigate_to(dir)"> {{ dir }} </div>
+                        </vs-list-item>
+                    </div>
                 </vs-list>
             </vs-col>
         </vs-row>
@@ -44,8 +65,14 @@
         <vs-row>
             <vs-col vs-justify="center" vs-align="center" vs-w="12">
                 <vs-list>
-                    <vs-list-header title="Files"></vs-list-header>
-                    <vs-list-item v-for="file in current_files"> <a :href="get_file_link(file)" download> {{ file }} </a> </vs-list-item>
+                    <vs-list-header title="Files" style="color: black"></vs-list-header>
+                    <div style="overflow: auto; height: 500px">
+                        <vs-list-item v-for="file in current_files" style="margin-left: 0; overflow: auto">
+                            <div class="file_list_item">
+                                <a :href="get_file_link(file)" download> {{ file }} </a>
+                            </div>
+                    </vs-list-item>
+                    </div>
                 </vs-list>
             </vs-col>
         </vs-row>

@@ -59,3 +59,9 @@ def is_admin():
         return jsonify({"admin": False})
     else:
         return jsonify({"admin": True})
+
+
+@bp.route("/get_username", methods=["GET"])
+@login_required
+def get_username():
+    return jsonify({"username": current_user.username})
