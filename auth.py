@@ -13,24 +13,23 @@ def login():
     if request.method == "GET":
         return render_template("./login.html")
 
-    email = request.form["email"]
-    password = request.form["password"]
+    email = request.json["email"]
+    password = request.json["password"]
 
     user = DBUser.query.filter_by(email=email).first()
 
     if not user or not check_password_hash(user.password, password):
-        return "Bad guy ;)"
+        return jsonify({"logged_in": False})
 
     login_user(user, remember=True)
-    return redirect(url_for("file_manager.home"))
+    return jsonify({"logged_in": True})
 
 
 @bp.route("/logout")
 def logout():
     if current_user.is_authenticated:
-        message = f"{current_user.username} logged out"
         logout_user()
-        return message
+        return redirect(url_for("file_manager.home"))
     return redirect(url_for("auth.login"))
 
 

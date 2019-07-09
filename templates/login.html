@@ -3,24 +3,50 @@
 {% block title %} Login {% endblock %}
 
 {% block content %}
+
+<style>
+.form_input {
+    margin-top: 2rem;
+}
+</style>
 <div id="app">
 <vs-row>
-    <vs-col vs-w="12">
-        <form action="login" method="post" style="margin: 10px">
-            <vs-row type="flex">
-                <vs-col vs-w="2">
-                    <input type="email" name="email" id="email" placeholder="email"/>
-                </vs-col>
-                <vs-col vs-w="2">
-                    <input type="password" name="password" id="password" placeholder="password"/>
-                </vs-col>
-                <vs-col vs-w="2">
-                    <vs-button color="primary"/><input type="submit" name="submit" style="border:0; background-color: transparent; color: white"/></vs-button>
+    <vs-col vs-w="4" vs-offset="5" style="margin-top: 10%">
+            <vs-row vs-type="flex">
+                <vs-col vs-align="center" vs-justify="center" vs-offset="1">
+                    <vs-row>
+                        <vs-col>
+                            <img src="/static/img/test_logo.jpg" width="200px"/>
+                        </vs-col>
+                    </vs-row>
+                    <vs-row class="form_input">
+                        <vs-col>
+                            <vs-input label-placeholder="Email" v-model="email"/>
+{#                            <input type="email" name="email" id="email" placeholder="email"/>#}
+                        </vs-col>
+                    </vs-row>
+                    <vs-row class="form_input">
+                        <vs-col>
+{#                            <input type="password" name="password" id="password" placeholder="password"/>#}
+                            <vs-input type="password" placeholder="Password" v-model="password"/>
+                        </vs-col>
+                    </vs-row>
+                    <vs-row class="form_input">
+                        <vs-col>
+                            <vs-button color="primary" v-on:click="login">submit</vs-button>
+                        </vs-col>
+                    </vs-row>
                 </vs-col>
             </vs-row>
-        </form>
+        <vs-row class="form_input">
+            <vs-col vs-align="center" style="width: 50%; margin-right: 50%">
+                <vs-alert :active="show_alert">
+                    Incorrect email or password
+                </vs-alert>
+            </vs-col>
+        </vs-row>
     </vs-col>
 </vs-row>
 </div>
-<script src="/static/js/index.js"></script>
+<script src="/static/js/login.js"></script>
 {% endblock %}
