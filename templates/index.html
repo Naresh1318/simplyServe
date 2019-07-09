@@ -3,51 +3,7 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-<style>
-.vs-list--slot {
-    margin-left: 0;
-}
-
-.file_list_item {
-    padding: 0.25rem;
-    max-width: 14rem;
-}
-
-.table_header {
-    padding: 0.5rem;
-    max-width: 14rem;
-}
-
-a:link {
-    text-decoration: none;
-    color: black;
-}
-
-a:visited {
-    text-decoration: none;
-    color: black;
-}
-.vs-con-table table {
-    font-size: 1rem;
-}
-
-.vs-con-table table:hover {
-    cursor: pointer;
-}
-
-th {
-    font-size: 1rem;
-}
-
-.vs-pagination-primary .effect, .vs-pagination-primary .vs-pagination--buttons:hover {
-    background: rgba(var(--vs-dark),1)!important;
-}
-
-.vs-pagination-primary li:hover:not(.is-current) {
-    color: rgba(var(--vs-dark),1)!important;
-}
-
-</style>
+<link rel="stylesheet" type="text/css" href="/static/css/index.css">
 <div id="app">
 <vs-row>
     <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="9">
@@ -77,7 +33,7 @@ th {
     <vs-col vs-w="3" style="padding: 1rem">
         <vs-row style="max-width: 100%; padding: 1rem">
             <vs-col vs-w="12">
-                <vs-table :data="current_dirs" :color="dark" pagination search>
+                <vs-table :data="current_dirs" pagination search>
                     <template slot="header">
                         <h3 class="table_header"> Directories </h3>
                     </template>

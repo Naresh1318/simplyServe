@@ -1,0 +1,42 @@
+.vs-list--slot {
+    margin-left: 0;
+}
+
+.file_list_item {
+    padding: 0.25rem;
+    max-width: 14rem;
+}
+
+.table_header {
+    padding: 0.5rem;
+    max-width: 14rem;
+}
+
+a:link {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: black;
+}
+.vs-con-table table {
+    font-size: 1rem;
+}
+
+.vs-con-table table:hover {
+    cursor: pointer;
+}
+
+th {
+    font-size: 1rem;
+}
+
+.vs-pagination-primary .effect, .vs-pagination-primary .vs-pagination--buttons:hover {
+    background: rgba(30, 30, 30, 1)!important;
+}
+
+.vs-pagination-primary li:hover:not(.is-current) {
+    color: rgba(30, 30, 30, 1)!important;
+}
