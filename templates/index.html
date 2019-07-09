@@ -9,7 +9,13 @@
 }
 
 .file_list_item {
+    padding: 0.25rem;
+    max-width: 14rem;
+}
+
+.table_header {
     padding: 0.5rem;
+    max-width: 14rem;
 }
 
 a:link {
@@ -28,6 +34,19 @@ a:visited {
 .vs-con-table table:hover {
     cursor: pointer;
 }
+
+th {
+    font-size: 1rem;
+}
+
+.vs-pagination-primary .effect, .vs-pagination-primary .vs-pagination--buttons:hover {
+    background: rgba(var(--vs-dark),1)!important;
+}
+
+.vs-pagination-primary li:hover:not(.is-current) {
+    color: rgba(var(--vs-dark),1)!important;
+}
+
 </style>
 <div id="app">
 <vs-row>
@@ -56,16 +75,16 @@ a:visited {
 
 <vs-row>
     <vs-col vs-w="3" style="padding: 1rem">
-        <vs-row>
-            <vs-col vs-justify="center" vs-align="center" vs-w="12">
-                <vs-table :data="current_dirs" pagination search>
+        <vs-row style="max-width: 100%; padding: 1rem">
+            <vs-col vs-w="12">
+                <vs-table :data="current_dirs" :color="dark" pagination search>
                     <template slot="header">
-                        <h3> Directories </h3>
+                        <h3 class="table_header"> Directories </h3>
                     </template>
 
                     <template slot="thead">
-                        <vs-th sort-key="name">Name</vs-th>
-                        <vs-th>Size</vs-th>
+                        <vs-th class="file_list_item"  sort-key="name">Name</vs-th>
+                        <vs-th class="file_list_item" >Size</vs-th>
                     </template>
 
                     <template slot-scope="{data}">
@@ -82,11 +101,11 @@ a:visited {
             </vs-col>
         </vs-row>
 
-        <vs-row>
-            <vs-col vs-justify="center" vs-align="center" vs-w="12">
+        <vs-row style="max-width: 100%; padding: 1rem;">
+            <vs-col vs-w="12">
                 <vs-table :data="current_files" pagination search>
                     <template slot="header">
-                        <h3> Files </h3>
+                        <h3 class="table_header"> Files </h3>
                     </template>
 
                     <template slot="thead">
