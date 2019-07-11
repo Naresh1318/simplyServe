@@ -3,10 +3,64 @@
 {% block title %} Admin {% endblock %}
 
 {% block content %}
-<form action="admin" method="post">
-    <input type="email" name="email" id="email" placeholder="email" required/>
-    <input type="password" name="password" id="password" placeholder="password" required/>
-    <input type="text" name="username" id="username" placeholder="username" required/>
-    <input type="submit" name="submit"/>
-</form>
+<div id="app">
+    <vs-row>
+        <vs-col style="padding: 1rem">
+            <h1> Admin </h1>
+        </vs-col>
+    </vs-row>
+
+    <vs-row>
+        <vs-col vs-w="4" style="padding: 1rem">
+            <vs-row>
+                <vs-col style="margin-top: 2rem">
+                    <h3>Add user</h3>
+                    <vs-row>
+                        <vs-col vs-w="4">
+                            <vs-input label-placeholder="Username" v-model="add_username" color="dark"/>
+                        </vs-col>
+                        <vs-col vs-w="4">
+                            <vs-input label-placeholder="Email" v-model="add_email" color="dark"/>
+                        </vs-col>
+                        <vs-col vs-w="4">
+                            <vs-input type="password" label-placeholder="Password" v-model="add_password" color="dark"/>
+                        </vs-col>
+                        <vs-row>
+                            <vs-col>
+                                <vs-button v-on:click="add_user" color="dark" style="display: inline-block; padding: 0.5rem 2rem; margin-top: 1rem">Add user</vs-button>
+                            </vs-col>
+                        </vs-row>
+                    </vs-row>
+                </vs-col>
+            </vs-row>
+
+            <vs-row>
+                <vs-col style="padding-top: 2rem">
+                    <h3>Delete user</h3>
+                    <vs-row>
+                        <vs-col>
+                            <vs-input label-placeholder="Email" v-model="delete_email" color="dark"/>
+                        </vs-col>
+                        <vs-row>
+                            <vs-col>
+                                <vs-button v-on:click="delete_user" color="dark" style="display: inline-block; padding: 0.5rem 2rem; margin-top: 1rem">Delete user</vs-button>
+                            </vs-col>
+                        </vs-row>
+                    </vs-row>
+                </vs-col>
+            </vs-row>
+        </vs-col>
+
+        <vs-col vs-w="8" style="padding: 1rem">
+            <h2>Database</h2>
+            <vs-row>
+                <vs-col>
+                    {{ log }}
+                </vs-col>
+            </vs-row>
+        </vs-col>
+    </vs-row>
+</div>
+
+<script src="/static/js/admin.js"></script>
 {% endblock %}

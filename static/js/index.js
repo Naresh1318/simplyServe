@@ -111,7 +111,7 @@ let app = new Vue({
             }
         },
         /**
-         * Check id current user is admin
+         * Check if current user is admin
          */
         is_admin: function () {
             axios("/is_admin")

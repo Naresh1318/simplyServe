@@ -14,9 +14,14 @@ class DBUser(UserMixin, db.Model):
         return f"<DBUser: {self.username}>"
 
 
-def add_user(email, password, name):
+def db_add_user(email, password, name):
     user = DBUser(email=email, password=generate_password_hash(password), username=name)
     db.session.add(user)
+    db.session.commit()
+
+
+def db_delete_user(user):
+    db.session.delete(user)
     db.session.commit()
 
 

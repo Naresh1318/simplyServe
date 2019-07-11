@@ -2,7 +2,7 @@ from werkzeug.security import check_password_hash
 from flask import request, render_template, Blueprint, redirect, url_for, jsonify
 from flask_login import logout_user, login_user, current_user, login_required
 
-from .models import DBUser, add_user
+from .models import DBUser, db_add_user, db_delete_user
 
 admin_username = "nn"
 bp = Blueprint("auth", __name__)
@@ -33,22 +33,43 @@ def logout():
     return redirect(url_for("auth.login"))
 
 
-@bp.route("/admin", methods=["POST", "GET"])
+@bp.route("/admin", methods=["GET"])
 @login_required
 def admin():
-    if current_user.username != admin_username:  # TODO: change this to admin
+    if current_user.username != admin_username:
         return redirect(url_for("file_manager.home"))
     if request.method == "GET":
         return render_template("admin.html")
-    email = request.form["email"]
-    password = request.form["password"]
-    username = request.form["username"]
+
+
+@bp.route("/add_user", methods=["POST"])
+@login_required
+def add_user():
+    if current_user.username != admin_username:
+        return redirect(url_for("file_manager.home"))
+    email = request.json["email"]
+    password = request.json["password"]
+    username = request.json["username"]
 
     user = DBUser.query.filter_by(email=email).first()
     if not user:
-        add_user(email, password, username)
-        return f"{username} added!"
-    return "Email id taken"
+        db_add_user(email, password, username)
+        return jsonify({"user_added": True})
+    return jsonify({"user_added": False})
+
+
+@bp.route("/delete_user", methods=["POST"])
+@login_required
+def delete_user():
+    if current_user.username != admin_username:
+        return redirect(url_for("file_manager.home"))
+    email = request.json["email"]
+
+    user = DBUser.query.filter_by(email=email).first()
+    if user:
+        db_delete_user(user)
+        return jsonify({"user_deleted": True})
+    return jsonify({"user_deleted": False})
 
 
 @bp.route("/is_admin", methods=["GET"])
