@@ -2,27 +2,12 @@ import os
 from flask_login import login_required, current_user
 from flask import jsonify, render_template, request, redirect, url_for, send_file, Blueprint
 
+from utils import list_files_n_dirs
+
 
 bp = Blueprint("file_manager", __name__)
 
 default_path = os.path.abspath("./static/linked_dir")
-
-
-def list_files_n_dirs(path: str):
-    """Returns a list of files and directories from the path
-    
-    Args:
-        path (str): directory path
-    
-    Returns:
-        [list, list]: list of files and directories
-    """
-    files = []
-    dirs = []
-    for (_, dir_names, file_names) in os.walk(path):
-        files.extend(file_names)
-        dirs.extend(dir_names)
-        return files, dirs
 
 
 @bp.route("/")
@@ -62,9 +47,9 @@ def ls():
     dir_path = request.args.get("path")
     if "linked_dir" not in dir_path or ".." in dir_path or "~" in dir_path:
         return redirect(url_for("file_manager.home"))
-    dir_files, dir_dirs = list_files_n_dirs(dir_path)
-    response = {"files": [{"name": j} for _, j in enumerate(dir_files)],
-                "dirs": [{"name": j} for _, j in enumerate(dir_dirs)]}
+    dir_files, dir_file_sizes, dir_dirs = list_files_n_dirs(dir_path)
+    response = {"files": [{"name": i, "size": j} for i, j in zip(dir_files, dir_file_sizes)],
+                "dirs": [{"name": i} for i in dir_dirs]}
     return jsonify(response)
 
 

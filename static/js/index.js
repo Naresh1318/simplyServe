@@ -9,6 +9,7 @@ let app = new Vue({
         current_dir: "",
         current_dirs: {},
         current_files: {},
+        current_file_sizes: {},
         navigation_stack: [],
         disable_back: true
     },
