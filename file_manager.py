@@ -77,3 +77,8 @@ def serve_file(path):
         if os.path.exists(path):
             return send_file(path, as_attachment=True)
     return redirect(url_for("auth.login"))  # TODO: This redirection causes the login page to be downloaded
+
+
+@bp.route("/server_name", methods=["GET"])
+def server_name():
+    return jsonify({"server_name": os.getenv("SERVER_NAME")})

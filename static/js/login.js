@@ -3,6 +3,7 @@ let vue_login = new Vue({
     data: {
         email: "",
         password: "",
+        server_name: "",
         show_alert: false
     },
     methods: {
@@ -25,5 +26,14 @@ let vue_login = new Vue({
                     }
                 })
         }
+    },
+    /**
+     * Get and set server name when page loads
+     */
+    created: function() {
+        axios.get("/server_name")
+            .then(function (response) {
+                vue_login.server_name = response["data"]["server_name"]
+            })
     }
 })

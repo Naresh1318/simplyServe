@@ -11,40 +11,43 @@
 </style>
 <div id="app">
 <vs-row>
-    <vs-col vs-w="4" vs-offset="5" style="margin-top: 10%">
-            <vs-row vs-type="flex">
-                <vs-col vs-align="center" vs-justify="center" vs-offset="1">
+    <vs-col vs-w="4" vs-offset="4" style="margin-top: 10%; text-align: center">
+            <vs-row vs-type="flex" style="display: inline-block">
+                <vs-col vs-align="center" vs-justify="center">
                     <vs-row>
-                        <vs-col>
+                        <vs-col style="text-align: center">
                             <img src="/static/img/test_logo.jpg" width="200px"/>
                         </vs-col>
                     </vs-row>
-                    <vs-row class="form_input">
+                    <vs-row>
                         <vs-col>
-                            <vs-input label-placeholder="Email" v-model="email"/>
-{#                            <input type="email" name="email" id="email" placeholder="email"/>#}
+                            <h2> {{ server_name }}</h2>
                         </vs-col>
                     </vs-row>
                     <vs-row class="form_input">
-                        <vs-col>
-{#                            <input type="password" name="password" id="password" placeholder="password"/>#}
-                            <vs-input type="password" placeholder="Password" v-model="password"/>
+                        <vs-col style="text-align: center">
+                            <vs-input label-placeholder="Email" v-model="email" style="display: inline-block"/>
                         </vs-col>
                     </vs-row>
                     <vs-row class="form_input">
-                        <vs-col>
-                            <vs-button color="primary" v-on:click="login">submit</vs-button>
+                        <vs-col style="text-align: center">
+                            <vs-input type="password" label-placeholder="Password" v-model="password" style="display: inline-block"/>
+                        </vs-col>
+                    </vs-row>
+                    <vs-row class="form_input">
+                        <vs-col style="text-align: center">
+                            <vs-button color="primary" v-on:click="login" style="display: inline-block">submit</vs-button>
+                        </vs-col>
+                    </vs-row>
+                    <vs-row class="form_input">
+                        <vs-col style="text-align: center; width: 50%; margin: auto">
+                            <vs-alert :active="show_alert" style="display: inline-block">
+                                Incorrect Email or Password.
+                            </vs-alert>
                         </vs-col>
                     </vs-row>
                 </vs-col>
             </vs-row>
-        <vs-row class="form_input">
-            <vs-col vs-align="center" style="width: 50%; margin-right: 50%">
-                <vs-alert :active="show_alert">
-                    Incorrect email or password
-                </vs-alert>
-            </vs-col>
-        </vs-row>
     </vs-col>
 </vs-row>
 </div>
