@@ -6,7 +6,13 @@
 
 <style>
 .form_input {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.form_text {
+    display: inline-block;
+    text-align: left
 }
 </style>
 <div id="app">
@@ -25,23 +31,23 @@
                         </vs-col>
                     </vs-row>
                     <vs-row class="form_input">
-                        <vs-col style="text-align: center">
-                            <vs-input label-placeholder="Email" v-model="email" style="display: inline-block"/>
+                        <vs-col>
+                            <vs-input class="form_text" label-placeholder="Email" v-model="email" color="dark"/>
                         </vs-col>
                     </vs-row>
                     <vs-row class="form_input">
-                        <vs-col style="text-align: center">
-                            <vs-input type="password" label-placeholder="Password" v-model="password" style="display: inline-block"/>
+                        <vs-col>
+                            <vs-input class="form_text" type="password" label-placeholder="Password" v-model="password" color="dark"/>
                         </vs-col>
                     </vs-row>
                     <vs-row class="form_input">
-                        <vs-col style="text-align: center">
-                            <vs-button color="primary" v-on:click="login" style="display: inline-block">submit</vs-button>
+                        <vs-col>
+                            <vs-button v-on:click="login" color="dark" style="display: inline-block; padding: 0.5rem 2rem; margin-top: 1rem">Login</vs-button>
                         </vs-col>
                     </vs-row>
                     <vs-row class="form_input">
-                        <vs-col style="text-align: center; width: 50%; margin: auto">
-                            <vs-alert :active="show_alert" style="display: inline-block">
+                        <vs-col style="width: 50%; margin: auto">
+                            <vs-alert :active="show_alert" color="rgb(120, 120, 120)" style="display: inline-block">
                                 Incorrect Email or Password.
                             </vs-alert>
                         </vs-col>
