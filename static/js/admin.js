@@ -8,6 +8,9 @@ let vue_admin = new Vue({
         log: ""
     },
     methods: {
+        /**
+         * Add user and update log
+         */
         add_user: function () {
             axios.post("add_user",
                 {
@@ -27,6 +30,9 @@ let vue_admin = new Vue({
                     }
                 })
         },
+        /**
+         * Delete user and update log
+         */
         delete_user: function () {
             axios.post("delete_user",
                 {

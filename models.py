@@ -15,12 +15,26 @@ class DBUser(UserMixin, db.Model):
 
 
 def db_add_user(email, password, name):
+    """Add user to the database
+
+    Args:
+        email (str): email id of user
+        password (str): hashed password
+        name (str): username
+
+    """
     user = DBUser(email=email, password=generate_password_hash(password), username=name)
     db.session.add(user)
     db.session.commit()
 
 
 def db_delete_user(user):
+    """Delete user on the database
+
+    Args:
+        user (DBUser): DBUser object to delete
+
+    """
     db.session.delete(user)
     db.session.commit()
 
