@@ -3,6 +3,7 @@ let app = new Vue({
     data: {
         index_html_file: ".index.html",
         username: "",
+        server_name: "",
         admin: false,
         default_dir: "",
         current_dir: "",
@@ -109,7 +110,7 @@ let app = new Vue({
             }
         },
         /**
-         *
+         * Check id current user is admin
          */
         is_admin: function () {
             axios("/is_admin")
@@ -118,7 +119,7 @@ let app = new Vue({
                 })
         },
         /**
-         *
+         * Get and set username
          */
         get_username: function () {
             axios("/get_username")
@@ -131,6 +132,13 @@ let app = new Vue({
      * Performs initial setup when the page is loaded
      */
     created: function() {
+        // Get server name
+        axios.get("/server_name")
+            .then(function (response) {
+                app.server_name = response["data"]["server_name"]
+            })
+
+        // Perform initial setup
         this.initial_setup()
     }
 })

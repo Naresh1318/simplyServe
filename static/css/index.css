@@ -10,6 +10,7 @@
 .table_header {
     padding: 0.5rem;
     max-width: 14rem;
+    font-size: 1.5rem;
 }
 
 a:link {

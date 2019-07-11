@@ -6,31 +6,35 @@
 <link rel="stylesheet" type="text/css" href="/static/css/index.css">
 <div id="app">
 <vs-row>
-    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="9">
-        <img src="/static/img/test_logo.jpg" width="4%"/>
+    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="5">
+        <img src="/static/img/test_logo.jpg" width="10%"/>
     </vs-col>
-    <vs-col v-if="admin" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button color="dark" type="filled" href="/admin">Admin</vs-button>
+    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="4">
+        <h2> {{ server_name }}</h2>
     </vs-col>
-    <vs-col vs-type="flex" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button color="dark" type="filled" href="/logout">Logout</vs-button>
+    <vs-col v-if="admin" vs-w="1" style="margin: auto; text-align: right">
+        <vs-button color="dark" type="filled" href="/admin" style="display: inline-block">Admin</vs-button>
     </vs-col>
-    <vs-col vs-type="flex" vs-align="center" vs-w="1" style="padding: 1rem">
-        {{ username }}
+    <vs-col vs-w="1" style="margin: auto; text-align: right">
+        <vs-button color="dark" type="filled" href="/logout" style="display: inline-block">Logout</vs-button>
+    </vs-col>
+    <vs-col vs-w="1" style="margin: auto; padding: 2rem; text-align: center">
+        <h3>{{ username }}</h3>
     </vs-col>
 </vs-row>
 
-<vs-row>
-    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button v-bind:disabled="disable_back" v-on:click="navigate_back()" radius color="dark" type="flat" icon="arrow_back"></vs-button>
-    </vs-col>
-    <vs-col vs-type="flex" vs-offset="0" vs-justify="center" vs-align="center" vs-w="1" style="padding: 1rem">
-        <vs-button v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" type="flat" icon="home"></vs-button>
-    </vs-col>
-</vs-row>
 
 <vs-row>
     <vs-col vs-w="3" style="padding: 1rem">
+        <vs-row style="padding: 0.5rem">
+            <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
+                <vs-button v-bind:disabled="disable_back" v-on:click="navigate_back()" radius color="dark" type="flat" icon="arrow_back"></vs-button>
+            </vs-col>
+            <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
+                <vs-button v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" type="flat" icon="home"></vs-button>
+            </vs-col>
+        </vs-row>
+
         <vs-row style="max-width: 100%; padding: 1rem">
             <vs-col vs-w="12">
                 <vs-table :data="current_dirs" pagination search>
