@@ -52,7 +52,7 @@ def add_user():
     password = request.json["password"]
     username = request.json["username"].strip()
 
-    if len(email) > 1 and len(password) > 1 and len(username) > 1:
+    if len(email) > 0 and len(password) > 0 and len(username) > 0:
         user = DBUser.query.filter_by(email=email).first()
         if not user:
             db_add_user(email, password, username)
@@ -67,10 +67,11 @@ def delete_user():
         return redirect(url_for("file_manager.home"))
     email = request.json["email"]
 
-    user = DBUser.query.filter_by(email=email).first()
-    if user:
-        db_delete_user(user)
-        return jsonify({"user_deleted": True})
+    if email != admin_email:
+        user = DBUser.query.filter_by(email=email).first()
+        if user:
+            db_delete_user(user)
+            return jsonify({"user_deleted": True})
     return jsonify({"user_deleted": False})
 
 
