@@ -11,6 +11,10 @@ html {
     background: #FFFFFF;
 }
 
+button {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
 .vs-list--slot {
     margin-left: 0;
 }

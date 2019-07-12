@@ -51,7 +51,7 @@ let vue_admin = new Vue({
                         vue_admin.log = "User deleted"
                     }
                     else {
-                        vue_admin.log = "User not found :("
+                        vue_admin.log = "User not found :( or admin cannot be deleted"
                     }
                     vue_admin.list_users()
                 })
