@@ -7,7 +7,7 @@
 <div id="app">
 <vs-row>
     <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="5">
-        <img src="/static/img/test_logo.jpg" width="10%"/>
+        <img src="/static/img/icon.png" width="7%" style="margin: 0.25rem"/>
     </vs-col>
     <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="4">
         <h2> {{ server_name }}</h2>
@@ -37,8 +37,12 @@
                 <vs-button color="dark" type="filled" v-on:click="download_selected" style="display: inline-block">Download</vs-button>
             </vs-col>
         </vs-row>
-
-        <vs-row style="max-width: 100%; padding: 1rem">
+        <vs-row>
+            <vs-col>
+                <vs-divider/>
+            </vs-col>
+        </vs-row>
+        <vs-row style="max-width: 100%; padding: 0rem">
             <vs-col vs-w="12">
                 <vs-table :data="current_dirs" pagination search>
                     <template slot="header">
@@ -60,7 +64,7 @@
             </vs-col>
         </vs-row>
 
-        <vs-row style="max-width: 100%; padding: 1rem;">
+        <vs-row style="max-width: 100%; padding: 0rem;">
             <vs-col vs-w="12">
                 <vs-table multiple v-model="selected" :data="current_files" pagination search>
                     <template slot="header">
