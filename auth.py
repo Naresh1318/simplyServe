@@ -48,14 +48,15 @@ def admin():
 def add_user():
     if current_user.email != admin_email:
         return redirect(url_for("file_manager.home"))
-    email = request.json["email"]
+    email = request.json["email"].strip()
     password = request.json["password"]
-    username = request.json["username"]
+    username = request.json["username"].strip()
 
-    user = DBUser.query.filter_by(email=email).first()
-    if not user:
-        db_add_user(email, password, username)
-        return jsonify({"user_added": True})
+    if len(email) > 1 and len(password) > 1 and len(username) > 1:
+        user = DBUser.query.filter_by(email=email).first()
+        if not user:
+            db_add_user(email, password, username)
+            return jsonify({"user_added": True})
     return jsonify({"user_added": False})
 
 
@@ -71,6 +72,18 @@ def delete_user():
         db_delete_user(user)
         return jsonify({"user_deleted": True})
     return jsonify({"user_deleted": False})
+
+
+@bp.route("/list_users", methods=["GET"])
+@login_required
+def list_users():
+    if current_user.email != admin_email:
+        return redirect(url_for("file_manager.home"))
+    all_users = DBUser.query.all()
+    all_users_list = []
+    for user in all_users:
+        all_users_list.append({"username": user.username, "email": user.email})
+    return jsonify({"users_list": all_users_list})
 
 
 @bp.route("/is_admin", methods=["GET"])

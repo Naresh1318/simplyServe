@@ -3,6 +3,7 @@
 {% block title %} Admin {% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="/static/css/index.css">
 <div id="app">
     <vs-row>
         <vs-col style="padding: 1rem">
@@ -49,13 +50,41 @@
                     </vs-row>
                 </vs-col>
             </vs-row>
+
+            <vs-row>
+                <vs-col style="width: 50%; margin-top: 2rem">
+                    <vs-alert :active="log.length > 0" color="dark" style="display: inline-block">
+                        {{ log }}
+                    </vs-alert>
+                </vs-col>
+            </vs-row>
         </vs-col>
 
         <vs-col vs-w="8" style="padding: 1rem">
             <h2>Database</h2>
             <vs-row>
                 <vs-col>
-                    {{ log }}
+                    <vs-table max-items="10" :data="users_list" pagination search>
+                        <template slot="header">
+                            <h3 class="table_header"> Users </h3>
+                        </template>
+
+                        <template slot="thead">
+                            <vs-th class="file_list_item"  sort-key="username">Username</vs-th>
+                            <vs-th class="file_list_item"  sort-key="email">Email</vs-th>
+                        </template>
+
+                        <template slot-scope="{data}">
+                            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+                                <vs-td :data="data[indextr].username">
+                                    <div class="file_list_item"> {{ data[indextr].username }} </div>
+                                </vs-td>
+                                <vs-td :data="data[indextr].email">
+                                    <div class="file_list_item"> {{ data[indextr].email }} </div>
+                                </vs-td>
+                            </vs-tr>
+                        </template>
+                    </vs-table>
                 </vs-col>
             </vs-row>
         </vs-col>
