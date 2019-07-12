@@ -39,7 +39,8 @@ def db_delete_user(user):
     db.session.commit()
 
 
-# Run db.create_all() at this line to generate the required tables
-db_path = os.path.join(os.path.dirname(__file__), "database/users.db")
-if not os.path.exists(db_path):
-    db.create_all()
+def create_db(app):
+    # Run db.create_all() at this line to generate the required tables
+    db_path = os.path.join(os.path.dirname(__file__), "database/users.db")
+    if not os.path.exists(db_path):
+        db.create_all(app=app)

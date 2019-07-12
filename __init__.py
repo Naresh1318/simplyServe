@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from werkzeug.security import generate_password_hash
 
 
 # Change jinja template syntax
@@ -53,7 +54,16 @@ def create_app():
     # Initialize database
     db.init_app(app)
 
-    from .models import DBUser
+    from .models import DBUser, create_db
+    create_db(app)
+
+    # Add admin
+    with app.app_context():
+        user = DBUser.query.filter_by(email=os.getenv("ADMIN_EMAIL")).first()
+        if not user:
+            user = DBUser(email=os.getenv("ADMIN_EMAIL"), password=generate_password_hash(os.getenv("ADMIN_PASS")), username=os.getenv("ADMIN_NAME"))
+            db.session.add(user)
+            db.session.commit()
 
     @login_manager.user_loader
     def user_loader(user_id):
