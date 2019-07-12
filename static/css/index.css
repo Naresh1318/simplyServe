@@ -54,3 +54,27 @@ th {
 .vs-pagination-primary li:hover:not(.is-current) {
     color: rgba(30, 30, 30, 1)!important;
 }
+
+/* Dark checkbox */
+.vs-checkbox-primary .vs-checkbox--check {
+    background: rgba(30, 30, 30, 1);
+}
+
+/* Dark checkbox border */
+.vs-checkbox-primary input:checked+.vs-checkbox {
+    border: 2px solid rgba(30, 30, 30, 1)!important;
+}
+
+/* Dark selected item background */
+.vs-table-primary .is-selected {
+    -webkit-transform: translate(0)!important;
+    transform: translate(0)!important;
+    background: rgba(30, 30, 30, .05)!important;
+}
+
+/* Dark selected text */
+.tr-table-state-primary, .vs-table-primary .is-selected {
+    color: rgba(30, 30, 30, 1);
+    -webkit-box-shadow: 0 0 1px 0 rgba(30, 30, 30, 1)!important;
+    box-shadow: 0 0 1px 0 rgba(30, 30, 30, 1)!important;
+}

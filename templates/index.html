@@ -33,6 +33,9 @@
             <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
                 <vs-button v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" type="flat" icon="home"></vs-button>
             </vs-col>
+            <vs-col v-if="selected.length > 0" vs-w="3">
+                <vs-button color="dark" type="filled" v-on:click="download_selected" style="display: inline-block">Download</vs-button>
+            </vs-col>
         </vs-row>
 
         <vs-row style="max-width: 100%; padding: 1rem">
@@ -47,7 +50,7 @@
                     </template>
 
                     <template slot-scope="{data}">
-                        <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                             <vs-td :data="data[indextr].name">
                                 <div class="file_list_item" v-on:click="navigate_to(data[indextr].name)"> {{ data[indextr].name }} </div>
                             </vs-td>
@@ -59,9 +62,9 @@
 
         <vs-row style="max-width: 100%; padding: 1rem;">
             <vs-col vs-w="12">
-                <vs-table :data="current_files" pagination search>
+                <vs-table multiple v-model="selected" :data="current_files" pagination search>
                     <template slot="header">
-                        <h3 class="table_header"> Files </h3>
+                        <h3 class="table_header">Files</h3>
                     </template>
 
                     <template slot="thead">
@@ -70,13 +73,13 @@
                     </template>
 
                     <template slot-scope="{data}">
-                        <vs-tr :key="indextr" v-for="(tr, indextr) in data" >
+                        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
                             <vs-td :data="data[indextr].name">
                                 <div class="file_list_item">
                                     <a :href="get_file_link(data[indextr].name)" download> {{ data[indextr].name }} </a>
                                 </div>
                             </vs-td>
-                            <vs-td>
+                            <vs-td :data="data[indextr.size]">
                                 {{ data[indextr].size }}
                             </vs-td>
                         </vs-tr>

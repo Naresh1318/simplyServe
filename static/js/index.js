@@ -7,9 +7,10 @@ let app = new Vue({
         admin: false,
         default_dir: "",
         current_dir: "",
-        current_dirs: {},
-        current_files: {},
-        current_file_sizes: {},
+        current_dirs: [],
+        current_files: [],
+        current_file_sizes: [],
+        selected: [],
         navigation_stack: [],
         disable_back: true
     },
@@ -23,10 +24,10 @@ let app = new Vue({
                 app.default_dir = response["data"]["default_dir"]
                 app.current_dir = app.default_dir
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.log("ERROR: " + error)
             })
-            .then(function () {
+            .then(function() {
                 app.list_dir(app.current_dir)
                 app.is_admin()
                 app.get_username()
@@ -49,7 +50,7 @@ let app = new Vue({
                         app.render_index();  // Render index file if present
                         return
                    })
-                   .catch(function (error) {
+                   .catch(function(error) {
                         console.log("ERROR: " + error)
                    })
         },
@@ -85,6 +86,27 @@ let app = new Vue({
         get_file_link: function(file) {
             return this.current_dir.split("simplyServe")[1] + "/"  + file
         },
+        download_selected: function() {
+            this.$vs.loading({type: "point", color: "#000000"})
+            axios({
+                    method: "post",
+                    url: "/download_selected",
+                    responseType: "blob",
+                    data: {
+                        "dir": app.current_dir,
+                        "files": app.selected
+                    }
+                })
+                .then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.setAttribute("download", "all_files.tar");
+                    document.body.appendChild(link);
+                    link.click();
+                    this.$vs.loading.close()
+                })
+        },
         /**
          * Get and sets the render_index div to the contents of .index.html file in the current directory
          */
@@ -97,7 +119,7 @@ let app = new Vue({
             if (l_current_files.includes(app.index_html_file)) {
                 let file_link = this.get_file_link(app.index_html_file)
                 axios.get(file_link)
-                    .then(function (response) {
+                    .then(function(response) {
                         index_viewer.innerHTML = response["data"]
                     })
                     .catch(function (error) {
@@ -113,16 +135,16 @@ let app = new Vue({
         /**
          * Check if current user is admin
          */
-        is_admin: function () {
+        is_admin: function() {
             axios("/is_admin")
-                .then(function (response) {
+                .then(function(response) {
                     app.admin = response["data"]["admin"]
                 })
         },
         /**
          * Get and set username
          */
-        get_username: function () {
+        get_username: function() {
             axios("/get_username")
                 .then(function (response) {
                     app.username = response["data"]["username"]
@@ -135,7 +157,7 @@ let app = new Vue({
     created: function() {
         // Get server name
         axios.get("/server_name")
-            .then(function (response) {
+            .then(function(response) {
                 app.server_name = response["data"]["server_name"]
             })
 

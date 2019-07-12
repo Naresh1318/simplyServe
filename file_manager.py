@@ -8,6 +8,7 @@ from utils import list_files_n_dirs
 bp = Blueprint("file_manager", __name__)
 
 default_path = os.path.abspath("./static/linked_dir")
+temp_zip_file = os.path.join(default_path, "temp.tar")
 
 
 @bp.route("/")
@@ -67,3 +68,18 @@ def serve_file(path):
 @bp.route("/server_name", methods=["GET"])
 def server_name():
     return jsonify({"server_name": os.getenv("SERVER_NAME")})
+
+
+@bp.route("/download_selected", methods=["POST"])
+@login_required
+def download_selected():
+    selected_dir = request.json["dir"]
+    selected_files = request.json["files"]
+    zipping_command = f"tar -c --use-compress-program=pigz -f {temp_zip_file} -C {selected_dir} "  # TODO: Limit #cores
+    for file in selected_files:
+        file_name = file["name"]
+        selected_path = os.path.abspath(os.path.join(selected_dir, file_name))
+        if os.path.exists(selected_path):
+            zipping_command += "'" + file_name + "'" + " "  # Include file names with spaces
+    os.system(zipping_command)
+    return send_file(temp_zip_file, as_attachment=True)
