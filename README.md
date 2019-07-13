@@ -8,7 +8,7 @@
 # The heck is this?
 
 <p align=center>
-    <img src="https://github.com/Naresh1318/simplyServe/raw/master/static/img/demo.gif" alt="Demo" width=20%/>
+    <img src="https://github.com/Naresh1318/simplyServe/raw/master/static/img/demo.gif" alt="Demo"/>
 </p>
 
 # Use??
