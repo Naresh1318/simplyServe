@@ -8,7 +8,7 @@ from utils import list_files_n_dirs
 bp = Blueprint("file_manager", __name__)
 
 default_path = os.path.abspath("./static/linked_dir")
-temp_zip_file = os.path.join(default_path, "temp.tar")
+temp_zip_file = os.path.join("./", "temp.tar")
 
 
 @bp.route("/")
