@@ -87,6 +87,3 @@ Here's I'll explain how you'd serve `/home/naresh/sleep` directory:
    This serves `/home/naresh/sleep`, creates a database of users in `/home/naresh/simplyServe/database/` and port farwards the server output into port 4000 on the host machine.
 
 6. Finally, go to `localhost:4000` on your browser and login as admin
-
-# Contribute
-
