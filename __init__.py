@@ -42,7 +42,7 @@ def create_app():
 
     app = CustomFlask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY="dev",  # TODO: Change this
+        SECRET_KEY=os.urandom(16),
         SQLALCHEMY_DATABASE_URI=db_uri)
     app.register_blueprint(file_manager.bp)
     app.register_blueprint(auth.bp)
