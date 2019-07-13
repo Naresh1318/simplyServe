@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash
 from flask import request, render_template, Blueprint, redirect, url_for, jsonify
 from flask_login import logout_user, login_user, current_user, login_required
 
-from .models import DBUser, db_add_user, db_delete_user
+from models import DBUser, db_add_user, db_delete_user
 
 admin_email = os.environ["ADMIN_EMAIL"]
 bp = Blueprint("auth", __name__)

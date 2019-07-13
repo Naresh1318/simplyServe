@@ -35,8 +35,8 @@ def create_app():
 
     """
     # This must be imported here to avoid the chicken and the egg problem
-    from . import file_manager
-    from . import auth
+    import file_manager
+    import auth
 
     db_uri = f"sqlite:///{db_path}"
 
@@ -54,7 +54,7 @@ def create_app():
     # Initialize database
     db.init_app(app)
 
-    from .models import DBUser, create_db
+    from models import DBUser, create_db
     create_db(app)
 
     # Add admin
