@@ -20,7 +20,7 @@
 
 2. Run
 ```bash
-docker run -v /home/naresh/Downloads:/simplyServe/static/linked_dir:ro \
+docker run -v /home/naresh/Downloads:/simplyServe/linked_dir:ro \
            -v /home/naresh/simplyServe/database/:/simplyServe/database/ \
            -p 4000:5000 \
            naresh1318/simply_serve

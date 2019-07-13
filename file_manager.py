@@ -1,14 +1,14 @@
 import os
 from flask_login import login_required, current_user
-from flask import jsonify, render_template, request, redirect, url_for, send_file, Blueprint
+from flask import jsonify, render_template, request, redirect, url_for, Blueprint, send_from_directory
 
 from utils import list_files_n_dirs
 
 
 bp = Blueprint("file_manager", __name__)
 
-default_path = os.path.abspath("./static/linked_dir")
-temp_zip_file = os.path.join("./", "temp.tar")
+default_path = os.path.abspath("./linked_dir")
+temp_zip_file = os.path.join("temp.tar")
 
 
 @bp.route("/")
@@ -54,14 +54,15 @@ def ls():
     return jsonify(response)
 
 
-@bp.route("/static/linked_dir/<path:path>")
+@bp.route("/linked_dir/<path:path>")
 def serve_file(path):
-    path = os.path.join("./static/linked_dir", path)
+    path = os.path.join("./linked_dir", path)
     if ".." in path or "~" in path:
         return redirect(url_for("file_manager.home"))
     if current_user.is_authenticated:
         if os.path.exists(path):
-            return send_file(path, as_attachment=True)
+            path = path.split("linked_dir")[1][1:]  # Remove full path and forward slash
+            return send_from_directory(default_path, path, as_attachment=True)
     return redirect(url_for("auth.login"))  # TODO: This redirection causes the login page to be downloaded
 
 
@@ -82,4 +83,4 @@ def download_selected():
         if os.path.exists(selected_path):
             zipping_command += "'" + file_name + "'" + " "  # Include file names with spaces
     os.system(zipping_command)
-    return send_file(temp_zip_file, as_attachment=True)
+    return send_from_directory(".", temp_zip_file, as_attachment=True)

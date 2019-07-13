@@ -118,7 +118,12 @@ let app = new Vue({
             let index_viewer = document.getElementById("index_viewer")
             if (l_current_files.includes(app.index_html_file)) {
                 let file_link = this.get_file_link(app.index_html_file)
-                axios.get(file_link)
+                axios.get(file_link,
+                    {
+                        params: {
+                            "timestamp": Date.now()  // Prevent browser from using cached pages
+                        }
+                    })
                     .then(function(response) {
                         index_viewer.innerHTML = response["data"]
                     })
