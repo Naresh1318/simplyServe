@@ -12,8 +12,13 @@
 </p>
 
 
+Imagine you've collect a ton of data on large number of experiments. Now, imagine you want to share 
+it with others and explain how things are organized. You might just host it on any of the file sharing 
+services out there and provide additional document that explain how data is organized.  
+OR, you can host it yourself. As you may have guessed, simplyServe lets you host file on a 
+server and allow restricted access to it. 
 
-Imagine you collect a ton of data on large number of experiments. Now, imagine you want to share it with others and explain how things are organized. You might just host it on any of the file sharing services out there and provide additional document that explain how data is organized.  OR, you can host it yourself. As you may have guessed, simplyServe lets you host file on a server and allow restricted access to it. Here are some of its features:
+Here are some of its features:
 
 1. User access management
 2. Multi-file download
