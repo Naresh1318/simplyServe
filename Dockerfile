@@ -13,7 +13,6 @@ COPY . /simplyServe
 
 EXPOSE 5000
 
-ENV SERVE_DIR "./temp"
 ENV SERVER_NAME "simplyServe"
 ENV ADMIN_EMAIL "a@1.com"
 ENV ADMIN_PASS "test"
