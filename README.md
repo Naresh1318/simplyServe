@@ -16,6 +16,14 @@
 
 # Use??
 
+1. Modify paths in `Dockerfile`
+
+2. Run
+```bash
+docker run -v /home/naresh/Downloads:/simplyServe/static/linked_dir:ro \
+           -p 4000:5000 \
+           naresh1318/simply_serve
+```
 
 # Contribute???
 
