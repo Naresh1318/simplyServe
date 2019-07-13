@@ -9,3 +9,6 @@ __pycache__/
 
 # junk files
 play_ground/
+
+# idea
+.idea/
