@@ -1,0 +1,14 @@
+# linked directory
+linked_dir/
+
+# Database
+database/
+
+# Cache
+__pycache__/
+
+# Virtual Env
+.simplyServe/
+
+# Pycharm file
+.idea/

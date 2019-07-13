@@ -12,3 +12,9 @@ play_ground/
 
 # idea
 .idea/
+
+# linked directory
+linked_dir/
+
+# Database
+database/

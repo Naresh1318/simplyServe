@@ -15,9 +15,9 @@ class CustomFlask(Flask):
     ))
 
 
-# # Create symbolic link to the required path, this is needed to download files in the appropriate format
+# # # Create symbolic link to the required path, this is needed to download files in the appropriate format
 # default_path: str = os.environ.get("SERVE_DIR")
-# symbolic_path = "./static/linked_dir"
+# symbolic_path = "./linked_dir"
 # if os.path.exists(symbolic_path):
 #     os.remove(symbolic_path)
 # os.symlink(default_path, symbolic_path)
