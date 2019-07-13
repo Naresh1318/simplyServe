@@ -11,22 +11,82 @@
     <img src="https://github.com/Naresh1318/simplyServe/raw/master/static/img/demo.gif" alt="Demo"/>
 </p>
 
+
+
+Imagine you collect a ton of data on large number of experiments. Now, imagine you want to share it with others and explain how things are organized. You might just host it on any of the file sharing services out there and provide additional document that explain how data is organized.  OR, you can host it yourself. As you may have guessed, simplyServe lets you host file on a server and allow restricted access to it. Here are some of its features:
+
+1. User access management
+2. Multi-file download
+3. Document each directory using beautiful charts from chart.js and have it rendered along side each directory 
+4. Easy to setup docker image 
+
 # Use??
 
-1. Modify paths in `Dockerfile`
+Here's I'll explain how you'd serve `/home/naresh/sleep` directory:
 
-2. Run
-```bash
-docker run -v /home/naresh/Downloads:/simplyServe/linked_dir:ro \
-           -v /home/naresh/simplyServe/database/:/simplyServe/database/ \
-           -p 4000:5000 \
-           naresh1318/simply_serve
-```
+1. Download and install docker:
 
-3. Database saved in `/home/naresh/simplyServe/database/`
+   - Here's a nice guide if you using ubuntu 18.04: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
 
-# Contribute???
+2. Clone this repo to any directory, I have it under `/home/naresh/project`
 
+3. Add admin and change server name if needed:
 
-Install
-1. sudo apt-get install pigz
+   * Move to the cloned directory `cd simplyServe`
+
+   * Open any editor and modify `Dockerfile`:
+
+     ```bash
+     ENV SERVER_NAME "<name>"
+     ENV ADMIN_EMAIL "<email>"
+     ENV ADMIN_PASS "<pass>"
+     ENV ADMIN_NAME "<name>"
+     ```
+
+     Here's what my variables look like:
+
+     ```bash
+     ENV SERVER_NAME "simplyServe"
+     ENV ADMIN_EMAIL "a@1.com"
+     ENV ADMIN_PASS "test"
+     ENV ADMIN_NAME "admin"
+     ```
+
+     * This names your server `simplyServe` and creates an admin user with the your credentials
+
+4. Build your image:
+
+   ```bash
+   docker build -t <name> .
+   ```
+
+   Here's how mine looks:
+
+   ```bash
+   docker build -t simply_serve:latest .
+   ```
+
+5. Run your image:
+
+   ```bash
+   docker run -v <dir to serve>:/simplyServe/linked_dir:ro \
+              -v <dir to create database in>:/simplyServe/database/ \
+              -p <port to forward>:5000 \
+              <image name>:<tag>
+   ```
+
+   Here's mine:
+
+   ```bash
+   docker run -v /home/naresh/sleep:/simplyServe/linked_dir:ro \
+              -v /home/naresh/simplyServe/database/:/simplyServe/database/ \
+              -p 4000:5000 \
+              simply_serve:latest
+   ```
+
+   This serves `/home/naresh/sleep`, creates a database of users in `/home/naresh/simplyServe/database/` and port farwards the server output into port 4000 on the host machine.
+
+6. Finally, go to `localhost:4000` on your browser and login as admin
+
+# Contribute
+
