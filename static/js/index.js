@@ -1,3 +1,23 @@
+/**
+ * Insert HTML in the desired id and evaluate scripts
+ * @param id, id to insert text in
+ * @param text, HTML text to insert (evaluates content inside scripts)
+ */
+function insertAndExecute(id, text) {
+    document.getElementById(id).innerHTML = text;
+    var scripts = Array.prototype.slice.call(document.getElementById(id).getElementsByTagName("script"));
+    for (var i = 0; i < scripts.length; i++) {
+        if (scripts[i].src != "") {
+            var tag = document.createElement("script");
+            tag.src = scripts[i].src;
+            document.getElementsByTagName("head")[0].appendChild(tag);
+        }
+        else {
+            eval(scripts[i].innerHTML);
+        }
+    }
+}
+
 let app = new Vue({
     el: "#app",
     data: {
@@ -125,7 +145,7 @@ let app = new Vue({
                         }
                     })
                     .then(function(response) {
-                        index_viewer.innerHTML = response["data"]
+                        insertAndExecute("index_viewer", response["data"])
                     })
                     .catch(function (error) {
                         console.log("ERROR: " + error)
