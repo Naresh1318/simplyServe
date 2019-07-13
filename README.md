@@ -1,17 +1,14 @@
 # simplyServe
 
 <p align=center>
-
-<img src="https://raw.githubusercontent.com/Naresh1318/simplyServe/master/static/img/icon.png?token=ADHNPQPRG4VR55RPZ7REC3K5GI5YE" alt="simplyServe" width=20%/>
-
-<p align="center"> Serve directories along with documentations </p>
-
+    <img src="https://raw.githubusercontent.com/Naresh1318/simplyServe/master/static/img/icon.png?token=ADHNPQPRG4VR55RPZ7REC3K5GI5YE" alt="simplyServe" width=20%/>
+    <p align="center"> Serve directories along with documentations </p>
 </p>
 
 # The heck is this?
 
 <p align=center>
-    gif
+    <img src="https://github.com/Naresh1318/simplyServe/raw/master/static/img/demo.gif" alt="Demo" width=20%/>
 </p>
 
 # Use??
