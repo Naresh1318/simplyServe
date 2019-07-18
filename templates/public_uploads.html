@@ -40,7 +40,9 @@
                             {{ data[indextr].size }}
                         </vs-td>
                         <vs-td :data="data[indextr].link">
-                            {{ data[indextr].link }}
+                            <a v-on:click="copy_to_clipboard(data[indextr].link)">
+                                {{ data[indextr].link }}
+                            </a>
                         </vs-td>
                     </vs-tr>
                 </template>
@@ -48,6 +50,5 @@
         </vs-col>
     </vs-row>
 </div>
-
 <script src="/static/js/public_uploads.js"></script>
 {% endblock %}

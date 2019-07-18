@@ -76,6 +76,7 @@ Here's I'll explain how you'd serve `/home/naresh/sleep` directory:
    ```bash
    docker run -v <dir to serve>:/simplyServe/linked_dir:ro \
               -v <dir to create database in>:/simplyServe/database/ \
+              -v <dir to store uploaded files>:/simplyServe/public/ \
               -p <port to forward>:5000 \
               <image name>:<tag>
    ```
@@ -85,6 +86,7 @@ Here's I'll explain how you'd serve `/home/naresh/sleep` directory:
    ```bash
    docker run -v /home/naresh/sleep:/simplyServe/linked_dir:ro \
               -v /home/naresh/simplyServe/database/:/simplyServe/database/ \
+              -v /home/naresh/simplyServe/public/:/simplyServe/public/ \ 
               -p 4000:5000 \
               simply_serve:latest
    ```

@@ -1,6 +1,8 @@
 import os
+from flask import current_app as app
 from flask_login import login_required, current_user
 from flask import jsonify, render_template, request, redirect, url_for, Blueprint, send_from_directory
+from werkzeug.utils import secure_filename
 
 from utils import list_files_n_dirs
 
@@ -9,6 +11,7 @@ bp = Blueprint("file_manager", __name__)
 
 default_path = os.path.abspath("./linked_dir")
 temp_zip_file = os.path.join("temp.tar")
+admin_email = os.environ["ADMIN_EMAIL"]
 
 
 @bp.route("/")
@@ -84,3 +87,39 @@ def download_selected():
             zipping_command += "'" + file_name + "'" + " "  # Include file names with spaces
     os.system(zipping_command)
     return send_from_directory(".", temp_zip_file, as_attachment=True)
+
+
+@bp.route("/public/<filename>", methods=["GET"])
+def download_public(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
+@bp.route("/public_uploads", methods=["GET", "POST"])
+@login_required
+def public_uploads():
+    if current_user.email != admin_email:
+        return jsonify({"ERROR": "User not admin"})
+    if request.method == "GET":
+        return render_template("public_uploads.html")
+    if "file" not in request.files:
+        return jsonify({"ERROR": "No file uploaded"})
+
+    file = request.files["file"]
+    if file.filename == "":
+        return jsonify({"ERROR": "No file uploaded"})
+
+    filename = secure_filename(file.filename)
+    file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+    return jsonify({"INFO": "File uploaded", "file_name": filename})
+
+
+@bp.route("/uploads_ls", methods=["GET"])
+@login_required
+def uploads_ls():
+    if current_user.email != admin_email:
+        return jsonify({"ERROR": "User not admin"})
+    abs_path = os.path.abspath(app.config["UPLOAD_FOLDER"])
+    dir_files, dir_file_sizes, dir_dirs = list_files_n_dirs(abs_path)
+    response = {"files": [{"name": i, "size": j} for i, j in zip(dir_files, dir_file_sizes)],
+                "dirs": [{"name": i} for i in dir_dirs]}
+    return jsonify(response)

@@ -23,6 +23,7 @@ class CustomFlask(Flask):
 # os.symlink(default_path, symbolic_path)
 # default_path = os.path.abspath(symbolic_path)
 
+UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "public")
 
 # db must be initialized here for other files to access it
 db_path = os.path.join(os.path.dirname(__file__), "database/users.db")
@@ -41,6 +42,9 @@ def create_app():
     db_uri = f"sqlite:///{db_path}"
 
     app = CustomFlask(__name__, instance_relative_config=True)
+
+    app.config["UPLOAD_FOLDER"] = UPLOAD_DIR
+
     app.config.from_mapping(
         SECRET_KEY=os.urandom(16),
         SQLALCHEMY_DATABASE_URI=db_uri)
