@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %} Upload {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/css/index.css">
+<div id="app" style="padding: 1rem">
+    <vs-row>
+        <vs-col style="padding: 1rem">
+            <h1> Upload </h1>
+        </vs-col>
+    </vs-row>
+    <vs-row style="padding: 1rem">
+        <vs-col>
+            <vs-upload action="/public_uploads" file-name="file" @on-success="successUpload"/>
+        </vs-col>
+    </vs-row>
+
+    <vs-row>
+        <vs-col>
+            <vs-table :data="files" pagination search>
+                <template slot="header">
+                    <h3 class="table_header">Files</h3>
+                </template>
+
+                <template slot="thead">
+                    <vs-th sort-key="name">Name</vs-th>
+                    <vs-th>Size</vs-th>
+                    <vs-th>Link</vs-th>
+                </template>
+
+                <template slot-scope="{data}">
+                    <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
+                        <vs-td :data="data[indextr].name">
+                            <div class="file_list_item">
+                                {{ data[indextr].name }}
+                            </div>
+                        </vs-td>
+                        <vs-td :data="data[indextr].size">
+                            {{ data[indextr].size }}
+                        </vs-td>
+                        <vs-td :data="data[indextr].link">
+                            {{ data[indextr].link }}
+                        </vs-td>
+                    </vs-tr>
+                </template>
+            </vs-table>
+        </vs-col>
+    </vs-row>
+</div>
+
+<script src="/static/js/public_uploads.js"></script>
+{% endblock %}
