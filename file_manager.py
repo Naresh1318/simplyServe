@@ -122,7 +122,8 @@ def public_uploads():
 def uploads_ls():
     if current_user.email != admin_email:
         return jsonify({"ERROR": "User not admin"})
-    abs_path = os.path.abspath(app.config["UPLOAD_FOLDER"])
+    dir_path = request.args.get("path")
+    abs_path = os.path.abspath(os.path.join(app.config["UPLOAD_FOLDER"], dir_path))
     dir_files, dir_file_sizes, dir_dirs = list_files_n_dirs(abs_path)
     response = {"files": [{"name": i, "size": j} for i, j in zip(dir_files, dir_file_sizes)],
                 "dirs": [{"name": i} for i in dir_dirs]}

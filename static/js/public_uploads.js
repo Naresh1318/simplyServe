@@ -4,7 +4,12 @@ let vue_upload = new Vue({
         username: "",
         server_name: "",
         admin: false,
-        files: []
+        default_dir: "",
+        current_dir: "",
+        current_dirs: [],
+        files: [],
+        navigation_stack: [],
+        disable_back: true
     },
     methods: {
         /**
@@ -12,19 +17,52 @@ let vue_upload = new Vue({
          */
         successUpload: function () {
             this.$vs.notify({color: "dark", title: "Upload Success"})
-            this.reload()
+            this.reload(this.current_dir)
         },
         /**
          * Reload files in public directory
          */
-        reload: function () {
-            axios.get("/uploads_ls")
-            .then(function(response) {
-                vue_upload.files = response["data"]["files"]
-                for (let file of vue_upload.files) {
-                    file["link"] = document.URL.split("/")[2] + "/public/" + file["name"]
+        reload: function (dir) {
+            axios.get("/uploads_ls", {
+                params: {
+                    path: dir
                 }
             })
+            .then(function(response) {
+                vue_upload.current_dirs = response["data"]["dirs"]
+                vue_upload.files = response["data"]["files"]
+                for (let file of vue_upload.files) {
+                    if (dir === ".")
+                        file["link"] = document.URL.split("/")[2] + `/public/${dir.slice(1, dir.length)}` + file["name"]
+                    else
+                        file["link"] = document.URL.split("/")[2] + `/public${dir.slice(1, dir.length)}/` + file["name"]
+                }
+            })
+        },
+        /**
+         * Sets current_dir to the previous dir and updates navigation_stack
+         */
+        navigate_back: function() {
+            vue_upload.current_dir = vue_upload.navigation_stack.pop()
+            vue_upload.reload(this.current_dir)
+            if (vue_upload.navigation_stack.length < 1)
+                vue_upload.disable_back = true
+        },
+        /**
+         * Sets current_dir to the required dir and updates navigation_stack
+         * @param {string} dir, directory to navigate to
+         * @param {boolean} abs_path, true  -> dir is an absolute path
+         *                            false -> dir is relative to current_dir
+         */
+        navigate_to: function(dir, abs_path=false) {
+            vue_upload.navigation_stack.push(vue_upload.current_dir)
+            if (abs_path)
+                vue_upload.current_dir = vue_upload.default_dir
+            else
+                vue_upload.current_dir = vue_upload.current_dir + "/" + dir
+            vue_upload.reload(this.current_dir)
+            if (vue_upload.navigation_stack.length > 0)
+                vue_upload.disable_back = false
         },
         /**
          * Copy text to clipboard
@@ -59,13 +97,15 @@ let vue_upload = new Vue({
         }
     },
     created: function () {
+        this.default_dir = "."
+        this.current_dir = this.default_dir
         // Get server name
         axios.get("/server_name")
             .then(function(response) {
-                vue_upload.server_name = response["data"]["server_name"]
+                this.server_name = response["data"]["server_name"]
             })
         this.is_admin()
         this.get_username()
-        this.reload()
+        this.reload(this.current_dir)
     }
 })
