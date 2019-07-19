@@ -4,20 +4,34 @@
 
 {% block content %}
 <link rel="stylesheet" type="text/css" href="/static/css/index.css">
-<div id="app" style="padding: 1rem">
-    <vs-row>
-        <vs-col style="padding: 1rem">
-            <h1> Upload </h1>
+<div id="app">
+{% include 'nav_bar.html' %}
+
+    <!-- Website nav -->
+    <vs-row vs-align="center" style="padding: 0.7rem; width: 25%">
+        <vs-col vs-w="3">
+            <vs-button href="/" radius color="dark" type="flat" icon="arrow_back"></vs-button>
+        </vs-col>
+        <vs-col vs-w="4">
+            <h2>Upload</h2>
         </vs-col>
     </vs-row>
-    <vs-row style="padding: 1rem">
-        <vs-col>
-            <vs-upload action="/public_uploads" file-name="file" @on-success="successUpload"/>
+    <vs-row>
+        <vs-col vs-w="4" style="padding-left: 1rem">
+            <vs-divider/>
         </vs-col>
     </vs-row>
 
+    <!-- Upload -->
+    <vs-row style="padding: 1rem">
+        <vs-col style="margin: auto; width: 20%">
+            <vs-upload action="/public_uploads" file-name="file" @on-success="successUpload" style="display: inline-block"/>
+        </vs-col>
+    </vs-row>
+
+    <!-- Uploads table -->
     <vs-row>
-        <vs-col>
+        <vs-col style="padding: 1rem">
             <vs-table :data="files" pagination search>
                 <template slot="header">
                     <h3 class="table_header">Files</h3>

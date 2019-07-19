@@ -5,17 +5,15 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="/static/css/index.css">
 <div id="app">
-    <vs-row>
-        <vs-col style="padding: 1rem">
-            <h1> Admin </h1>
-        </vs-col>
-    </vs-row>
-
+    {% include 'nav_bar.html' %}
     <vs-row>
         <vs-col vs-w="4" style="padding: 1rem">
-            <vs-row>
-                <vs-col>
+            <vs-row vs-align="center">
+                <vs-col vs-w="2">
                     <vs-button href="/" radius color="dark" type="flat" icon="arrow_back"></vs-button>
+                </vs-col>
+                <vs-col vs-w="4">
+                    <h2>Admin</h2>
                 </vs-col>
             </vs-row>
             <vs-row>

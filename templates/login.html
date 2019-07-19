@@ -20,6 +20,8 @@
     <vs-col vs-w="4" vs-offset="4" style="margin-top: 10%; text-align: center">
             <vs-row vs-type="flex" style="display: inline-block">
                 <vs-col vs-align="center" vs-justify="center">
+
+                    <!-- Image -->
                     <vs-row>
                         <vs-col style="text-align: center">
                             <img src="/static/img/icon.png" width="150px"/>
@@ -30,11 +32,15 @@
                             <vs-divider/>
                         </vs-col>
                     </vs-row>
+
+                    <!-- Server name -->
                     <vs-row>
                         <vs-col>
                             <h2 style="margin-top: 2rem"> {{ server_name }}</h2>
                         </vs-col>
                     </vs-row>
+
+                    <!-- Login form -->
                     <vs-row class="form_input">
                         <vs-col>
                             <vs-input class="form_text" label-placeholder="Email" v-model="email" color="dark"/>

@@ -5,30 +5,12 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="/static/css/index.css">
 <div id="app">
-<vs-row>
-    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="5">
-        <img src="/static/img/icon.png" width="7%" style="margin: 0.25rem"/>
-    </vs-col>
-    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="4">
-        <h2> {{ server_name }}</h2>
-    </vs-col>
-    <vs-col v-if="admin" vs-w="1" style="margin: auto; text-align: right">
-        <vs-button color="dark" type="filled" href="/admin" style="display: inline-block">Admin</vs-button>
-    </vs-col>
-    <vs-col v-if="admin" vs-w="1" style="margin: auto; text-align: right">
-        <vs-button color="dark" type="filled" href="/public_uploads" style="display: inline-block">Uploads</vs-button>
-    </vs-col>
-    <vs-col vs-w="1" style="margin: auto; text-align: right">
-        <vs-button color="dark" type="filled" href="/logout" style="display: inline-block">Logout</vs-button>
-    </vs-col>
-    <vs-col vs-w="1" style="margin: auto; padding: 2rem; text-align: center">
-        <h3>{{ username }}</h3>
-    </vs-col>
-</vs-row>
-
+{% include 'nav_bar.html' %}
 
 <vs-row>
     <vs-col vs-w="3" style="padding: 1rem">
+
+        <!-- Filesystem nav bar -->
         <vs-row style="padding: 0.5rem">
             <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
                 <vs-button v-bind:disabled="disable_back" v-on:click="navigate_back()" radius color="dark" type="flat" icon="arrow_back"></vs-button>
@@ -45,6 +27,8 @@
                 <vs-divider/>
             </vs-col>
         </vs-row>
+
+        <!-- Directories -->
         <vs-row style="max-width: 100%; padding: 0rem">
             <vs-col vs-w="12">
                 <vs-table :data="current_dirs" pagination search>
@@ -67,6 +51,7 @@
             </vs-col>
         </vs-row>
 
+        <!-- Files -->
         <vs-row style="max-width: 100%; padding: 0rem;">
             <vs-col vs-w="12">
                 <vs-table multiple v-model="selected" :data="current_files" pagination search>
@@ -96,6 +81,7 @@
         </vs-row>
     </vs-col>
 
+    <!-- Render HTML -->
     <vs-col vs-justify="center" vs-align="center" vs-w="9" style="padding: 0.5rem">
         <div id="index_viewer">
 

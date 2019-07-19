@@ -1,6 +1,9 @@
 let vue_admin = new Vue({
     el: "#app",
     data: {
+        username: "",
+        server_name: "",
+        admin: false,
         users_list: [],
         add_username: "",
         add_email: "",
@@ -65,9 +68,34 @@ let vue_admin = new Vue({
                 .then(function(response) {
                     vue_admin.users_list = response["data"]["users_list"]
                 })
+        },
+        /**
+         * Check if current user is admin
+         */
+        is_admin: function() {
+            axios("/is_admin")
+                .then(function(response) {
+                    vue_admin.admin = response["data"]["admin"]
+                })
+        },
+        /**
+         * Get and set username
+         */
+        get_username: function() {
+            axios("/get_username")
+                .then(function (response) {
+                    vue_admin.username = response["data"]["username"]
+                })
         }
     },
     created: function() {
+        // Get server name
+        axios.get("/server_name")
+            .then(function(response) {
+                vue_admin.server_name = response["data"]["server_name"]
+            })
+        this.is_admin()
+        this.get_username()
         this.list_users()
     }
 })

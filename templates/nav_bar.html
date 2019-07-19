@@ -1,0 +1,21 @@
+<!-- Nav bar -->
+<vs-row>
+    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="5">
+        <img src="/static/img/icon.png" width="7%" style="margin: 0.25rem"/>
+    </vs-col>
+    <vs-col vs-type="flex" vs-justify="left" vs-align="center" vs-w="3">
+        <h2> {{ server_name }}</h2>
+    </vs-col>
+    <vs-col v-if="admin" vs-w="1" style="margin: auto; text-align: right">
+        <vs-button color="dark" type="filled" href="/admin" style="display: inline-block">Admin</vs-button>
+    </vs-col>
+    <vs-col v-if="admin" vs-w="1" style="margin: auto; text-align: right">
+        <vs-button color="dark" type="filled" href="/public_uploads" style="display: inline-block">Uploads</vs-button>
+    </vs-col>
+    <vs-col vs-w="1" style="margin: auto; text-align: right">
+        <vs-button color="dark" type="filled" href="/logout" style="display: inline-block">Logout</vs-button>
+    </vs-col>
+    <vs-col vs-w="1" style="margin: auto; padding: 2rem; text-align: center">
+        <h3>{{ username }}</h3>
+    </vs-col>
+</vs-row>
