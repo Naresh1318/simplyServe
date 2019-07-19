@@ -89,9 +89,13 @@ def download_selected():
     return send_from_directory(".", temp_zip_file, as_attachment=True)
 
 
-@bp.route("/public/<filename>", methods=["GET"])
-def download_public(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@bp.route("/public/<path:path>", methods=["GET"])
+def download_public(path):
+    path = path.split("/")
+    filename = path[-1]
+    relative_path = "/".join(path[:-1])
+    directory = os.path.join(app.config['UPLOAD_FOLDER'], relative_path)
+    return send_from_directory(directory, filename)
 
 
 @bp.route("/public_uploads", methods=["GET", "POST"])
