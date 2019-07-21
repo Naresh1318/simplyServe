@@ -17,6 +17,9 @@ let vue_upload = new Vue({
         previous_folder_name: null,
     },
     methods: {
+        get_upload_url: function() {
+          return `/public_uploads?folder=${this.current_dir}`
+        },
         /**
          * Notify on successful upload
          */

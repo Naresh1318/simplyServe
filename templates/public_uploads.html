@@ -31,7 +31,7 @@
     <!-- Upload -->
     <vs-row style="padding: 1rem">
         <vs-col style="margin: auto; width: 20%">
-            <vs-upload action="/public_uploads" file-name="file" @on-success="successUpload" style="display: inline-block"/>
+            <vs-upload v-bind:action="get_upload_url()" file-name="file" @on-success="successUpload" style="display: inline-block"/>
         </vs-col>
     </vs-row>
 

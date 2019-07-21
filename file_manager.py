@@ -114,7 +114,11 @@ def public_uploads():
         return jsonify({"ERROR": "No file uploaded"})
 
     filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+    folder = request.args.get("folder").split(".")[1]
+    if folder != "":
+        folder = folder[1:]  # Remove / prefix before join
+    upload_dir = os.path.join(app.config["UPLOAD_FOLDER"], folder)
+    file.save(os.path.join(upload_dir, filename))
     return jsonify({"INFO": "File uploaded", "file_name": filename})
 
 
