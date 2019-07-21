@@ -5,6 +5,13 @@
 {% block content %}
 <link rel="stylesheet" type="text/css" href="/static/css/index.css">
 <div id="app">
+
+<!-- Loading Screen-->
+<div id="overlay">
+    <div id="progstat"></div>
+    <div id="progress"></div>
+</div>
+
 {% include 'nav_bar.html' %}
 
 <vs-row>
