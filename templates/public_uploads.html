@@ -47,6 +47,9 @@
                 <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
                     <vs-button v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" type="flat" icon="home"></vs-button>
                 </vs-col>
+                <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
+                    <vs-button v-on:click="new_folder_popup=true" type="flat" radius color="dark" icon="create_new_folder"></vs-button>
+                </vs-col>
             </vs-row>
             <vs-row>
                 <vs-col>
@@ -58,6 +61,45 @@
                     <vs-divider/>
                 </vs-col>
             </vs-row>
+
+            <!-- Popups -->
+            <vs-popup title="New Folder" :active.sync="new_folder_popup">
+                <vs-row>
+                    <vs-col vs-w="6">
+                        <vs-input placeholder="Name" v-model="new_folder_name"/>
+                    </vs-col>
+                    <vs-col vs-w="6">
+                        <vs-button v-on:click="create_folder()" color="dark">Create</vs-button>
+                    </vs-col>
+                </vs-row>
+            </vs-popup>
+
+            <vs-popup title="Rename Folder" :active.sync="rename_folder_popup">
+                <vs-row>
+                    <vs-col vs-w="6">
+                        <vs-input placeholder="Name" v-model="new_folder_name"/>
+                    </vs-col>
+                    <vs-col vs-w="6">
+                        <vs-button v-on:click="rename_folder()" color="dark">Rename</vs-button>
+                    </vs-col>
+                </vs-row>
+            </vs-popup>
+
+            <vs-popup title="Are you Sure?" :active.sync="delete_folder_popup">
+                <vs-row style="padding: 0.5rem">
+                    <vs-col>
+                        This operation is irreversible
+                    </vs-col>
+                </vs-row>
+                <vs-row style="padding: 0.5rem">
+                    <vs-col vs-w="3" vs-jusitfy="center">
+                        <vs-button v-on:click="delete_folder()" color="dark">Yes</vs-button>
+                    </vs-col>
+                    <vs-col vs-w="3" vs-jusitfy="center">
+                        <vs-button v-on:click="delete_folder_popup=false" color="dark">No</vs-button>
+                    </vs-col>
+                </vs-row>
+            </vs-popup>
 
             <vs-row vs-justify="space-between">
                 <vs-col vs-w="5">
@@ -77,6 +119,23 @@
                                     <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                                         <vs-td :data="data[indextr].name">
                                             <div class="file_list_item" v-on:click="navigate_to(data[indextr].name)"> {{ data[indextr].name }} </div>
+                                        </vs-td>
+                                        <vs-td :data="data[indextr].name">
+                                            <vs-dropdown>
+                                                <a class="a-icon" href="#">
+                                                    <vs-icon class="" icon="expand_more"></vs-icon>
+                                                </a>
+
+                                                <vs-dropdown-menu>
+                                                    <vs-dropdown-item v-on:click="setup_delete_folder(data[indextr].name)">
+                                                        Delete
+                                                    </vs-dropdown-item>
+                                                    <vs-dropdown-item v-on:click="setup_rename_folder(data[indextr].name)">
+                                                        Rename
+                                                    </vs-dropdown-item>
+                                                </vs-dropdown-menu>
+                                            </vs-dropdown>
+
                                         </vs-td>
                                     </vs-tr>
                                 </template>

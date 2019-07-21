@@ -1,4 +1,5 @@
 import os
+import shutil
 from flask import current_app as app
 from flask_login import login_required, current_user
 from flask import jsonify, render_template, request, redirect, url_for, Blueprint, send_from_directory
@@ -128,3 +129,52 @@ def uploads_ls():
     response = {"files": [{"name": i, "size": j} for i, j in zip(dir_files, dir_file_sizes)],
                 "dirs": [{"name": i} for i in dir_dirs]}
     return jsonify(response)
+
+
+@bp.route("/create_folder", methods=["POST"])
+@login_required
+def create_folder():
+    if current_user.email != admin_email:
+        return jsonify({"ERROR": "User not admin"})
+    dir_path = request.json["path"].split(".")[1]
+    folder_name = request.json["name"]
+    abs_dir_path = os.path.join(app.config["UPLOAD_FOLDER"], dir_path)
+    try:
+        os.mkdir(os.path.join(abs_dir_path, folder_name))
+        return jsonify({"INFO": True})
+    except FileExistsError as e:
+        return jsonify({"ERROR": e})
+
+
+@bp.route("/rename_folder", methods=["POST"])
+@login_required
+def rename_folder():
+    if current_user.email != admin_email:
+        return jsonify({"ERROR": "User not admin"})
+    dir_path = request.json["path"].split(".")[1]
+    previous_name = request.json["previous"]
+    folder_name = request.json["name"]
+    abs_dir_path = os.path.join(app.config["UPLOAD_FOLDER"], dir_path)
+    previous_path = os.path.join(abs_dir_path, previous_name)
+    new_path = os.path.join(abs_dir_path, folder_name)
+    try:
+        os.rename(previous_path, new_path)
+        return jsonify({"INFO": True})
+    except FileNotFoundError as e:
+        return jsonify({"ERROR": e})
+
+
+@bp.route("/delete_folder", methods=["POST"])
+@login_required
+def delete_folder():
+    if current_user.email != admin_email:
+        return jsonify({"ERROR": "User not admin"})
+    dir_path = request.json["path"].split(".")[1]
+    folder_name = request.json["name"]
+    abs_dir_path = os.path.join(app.config["UPLOAD_FOLDER"], dir_path)
+    path = os.path.join(abs_dir_path, folder_name)
+    try:
+        shutil.rmtree(path)
+        return jsonify({"INFO": True})
+    except FileNotFoundError as e:
+        return jsonify({"ERROR": e})

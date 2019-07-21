@@ -9,7 +9,12 @@ let vue_upload = new Vue({
         current_dirs: [],
         files: [],
         navigation_stack: [],
-        disable_back: true
+        disable_back: true,
+        new_folder_popup: false,
+        new_folder_name: null,
+        rename_folder_popup: false,
+        delete_folder_popup: false,
+        previous_folder_name: null,
     },
     methods: {
         /**
@@ -94,7 +99,74 @@ let vue_upload = new Vue({
                 .then(function (response) {
                     vue_upload.username = response["data"]["username"]
                 })
-        }
+        },
+        create_folder: function() {
+            if (this.new_folder_name === null) {
+                this.$vs.notify({color: "dark", title: "Enter a folder name"})
+                return
+            }
+            axios.post("/create_folder", {
+                path: vue_upload.current_dir,
+                name: vue_upload.new_folder_name
+            })
+                .then(function(response) {
+                    if (response["data"]["INFO"]) {
+                        vue_upload.$vs.notify({color: "dark", title: "Folder Created!"})
+                    }
+                    else {
+                        vue_upload.$vs.notify({color: "dark", title: "Folder Exists"})
+                    }
+                    vue_upload.new_folder_name = null
+                    vue_upload.new_folder_popup = false
+                    vue_upload.reload(vue_upload.current_dir)
+                })
+        },
+        setup_rename_folder: function(previous_name) {
+            this.selected_folder = previous_name
+            this.rename_folder_popup = true
+        },
+        rename_folder: function () {
+            if (this.new_folder_name === null) {
+                this.$vs.notify({color: "dark", title: "Enter a folder name"})
+                return
+            }
+            axios.post("/rename_folder", {
+                path: vue_upload.current_dir,
+                previous: vue_upload.selected_folder,
+                name: vue_upload.new_folder_name
+            })
+                .then(function(response) {
+                    if (response["data"]["INFO"]) {
+                        vue_upload.$vs.notify({color: "dark", title: "Folder Renamed!"})
+                    }
+                    else {
+                        vue_upload.$vs.notify({color: "dark", title: "Folder Exists"})
+                    }
+                    vue_upload.new_folder_name = null
+                    vue_upload.rename_folder_popup = false
+                    vue_upload.reload(vue_upload.current_dir)
+                })
+        },
+        setup_delete_folder: function(folder_name) {
+            this.selected_folder = folder_name
+            this.delete_folder_popup = true
+        },
+        delete_folder: function () {
+            axios.post("/delete_folder", {
+                path: vue_upload.current_dir,
+                name: vue_upload.selected_folder
+            })
+                .then(function(response) {
+                    if (response["data"]["INFO"]) {
+                        vue_upload.$vs.notify({color: "dark", title: "Folder deleted!"})
+                    }
+                    else {
+                        vue_upload.$vs.notify({color: "dark", title: "Folder does not exists"})
+                    }
+                    vue_upload.delete_folder_popup = false
+                    vue_upload.reload(vue_upload.current_dir)
+                })
+        },
     },
     created: function () {
         this.default_dir = "."
