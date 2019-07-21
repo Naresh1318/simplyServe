@@ -106,6 +106,12 @@ let app = new Vue({
         get_file_link: function(file) {
             return this.current_dir.split("simplyServe")[1] + "/"  + file
         },
+        /**
+         * Returns relative path from linked_dir using the absolute path
+         */
+        get_relative_path: function(directory) {
+            return this.current_dir.split("linked_dir")[1]
+        },
         download_selected: function() {
             this.$vs.loading({type: "point", color: "#000000"})
             axios({

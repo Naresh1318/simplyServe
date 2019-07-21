@@ -48,6 +48,11 @@
                     <vs-button v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" type="flat" icon="home"></vs-button>
                 </vs-col>
             </vs-row>
+            <vs-row>
+                <vs-col>
+                    {{ current_dir }}
+                </vs-col>
+            </vs-row>
             <vs-row style="width: 34%">
                 <vs-col>
                     <vs-divider/>
