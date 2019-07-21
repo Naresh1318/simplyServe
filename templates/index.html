@@ -25,19 +25,19 @@
             <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
                 <vs-button v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" type="flat" icon="home"></vs-button>
             </vs-col>
-            <vs-col v-if="selected.length > 0" vs-w="3">
+            <vs-col vs-type="flex" v-if="selected.length > 0" vs-w="3">
                 <vs-button color="dark" type="filled" v-on:click="download_selected" style="display: inline-block">Download</vs-button>
             </vs-col>
         </vs-row>
         <vs-row>
-            <vs-col>
+            <vs-col vs-type="flex">
                 <vs-divider/>
             </vs-col>
         </vs-row>
 
         <!-- Directories -->
         <vs-row style="max-width: 100%; padding: 0rem">
-            <vs-col vs-w="12">
+            <vs-col vs-type="flex" vs-w="12">
                 <vs-table :data="current_dirs" pagination search>
                     <template slot="header">
                         <h3 class="table_header"> Directories </h3>
@@ -60,7 +60,7 @@
 
         <!-- Files -->
         <vs-row style="max-width: 100%; padding: 0rem;">
-            <vs-col vs-w="12">
+            <vs-col vs-type="flex" vs-w="12">
                 <vs-table multiple v-model="selected" :data="current_files" pagination search>
                     <template slot="header">
                         <h3 class="table_header">Files</h3>
@@ -89,7 +89,7 @@
     </vs-col>
 
     <!-- Render HTML -->
-    <vs-col vs-justify="center" vs-align="center" vs-w="9" style="padding: 0.5rem">
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="9" style="padding: 0.5rem">
         <div id="index_viewer">
 
         </div>
