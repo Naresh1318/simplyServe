@@ -4,69 +4,50 @@
 
 {% block content %}
 
-<style>
-.form_input {
-    margin-top: 1.5rem;
-    text-align: center;
-}
-
-.form_text {
-    display: inline-block;
-    text-align: left
-}
-</style>
 <div id="app">
-<vs-row>
-    <vs-col vs-w="4" vs-offset="4" style="margin-top: 10%; text-align: center">
-            <vs-row vs-type="flex" style="display: inline-block">
-                <vs-col vs-align="center" vs-justify="center">
+    <v-app id="app">
+        <v-content>
+            <v-container class="fill-height" fluid>
+                <v-row align="center" justify="center" style="margin: auto">
+                    <v-col cols="12" md="4">
+                        <v-img src="/static/img/icon.png" contain height="15rem"></v-img>
+                        <div style="text-align: center">Serve directories along with docs</div>
+                    </v-col>
 
-                    <!-- Image -->
-                    <vs-row>
-                        <vs-col style="text-align: center">
-                            <img src="/static/img/icon.png" width="150px"/>
-                        </vs-col>
-                    </vs-row>
-                    <vs-row>
-                        <vs-col style="width: 50%; margin: auto">
-                            <vs-divider/>
-                        </vs-col>
-                    </vs-row>
+                    <v-col cols="12" md="4">
+                        <v-row>
+                            <v-col cols="12">
+                               <h2 style="text-align: center">SimplyServe</h2>
+                            </v-col>
+                        </v-row>
 
-                    <!-- Server name -->
-                    <vs-row>
-                        <vs-col>
-                            <h2 style="margin-top: 2rem"> {{ server_name }}</h2>
-                        </vs-col>
-                    </vs-row>
+                        <v-form>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-text-field v-model="email" label="Email" name="email" prepend-icon="email" type="email" color="dark"/>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-text-field v-model="password" id="password" label="Passsword" name="password" prepend-icon="lock" type="password" color="dark"/>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="3" style="margin: auto">
+                                    <v-btn @click="login" dark>Login</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-form>
+                    </v-col>
+                </v-row>
 
-                    <!-- Login form -->
-                    <vs-row class="form_input">
-                        <vs-col>
-                            <vs-input class="form_text" label-placeholder="Email" v-model="email" color="dark"/>
-                        </vs-col>
-                    </vs-row>
-                    <vs-row class="form_input">
-                        <vs-col>
-                            <vs-input class="form_text" type="password" label-placeholder="Password" v-model="password" color="dark"/>
-                        </vs-col>
-                    </vs-row>
-                    <vs-row class="form_input">
-                        <vs-col>
-                            <vs-button v-on:click="login" color="dark" style="display: inline-block; padding: 0.5rem 2rem; margin-top: 1rem">Login</vs-button>
-                        </vs-col>
-                    </vs-row>
-                    <vs-row class="form_input">
-                        <vs-col style="width: 50%; margin: auto">
-                            <vs-alert :active="show_alert" color="rgb(120, 120, 120)" style="display: inline-block">
-                                Incorrect Email or Password.
-                            </vs-alert>
-                        </vs-col>
-                    </vs-row>
-                </vs-col>
-            </vs-row>
-    </vs-col>
-</vs-row>
+                <v-snackbar v-model="show_alert">
+                    <b>Incorrect Email or Password</b>
+                    <v-btn color="white" text @click="show_alert = false"><b>Close</b></v-btn>
+                </v-snackbar>
+            </v-container>
+        </v-content>
+    </v-app>
 </div>
 <script src="/static/js/login.js"></script>
 {% endblock %}
