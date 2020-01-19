@@ -20,16 +20,25 @@ function insertAndExecute(id, text) {
 
 let app = new Vue({
     el: "#app",
+    vuetify: new Vuetify(),
     data: {
+        pages: [{title: "Home", icon: "home"},
+                {title: "Public", icon: "public"},
+                {title: "Admin", icon: "gavel"}],
+        current_page: "Home",
         index_html_file: ".index.html",
         username: "",
         server_name: "",
         admin: false,
         default_dir: "",
         current_dir: "",
+        all_items: [],
         current_dirs: [],
         current_files: [],
         current_file_sizes: [],
+        file_manager_header: [{text: "Name", align: "left", sortable: true, value: "name"},
+                              {text: "File size", align: "left", sortable: false, value: "size"}],
+        item_search: "",
         selected: [],
         navigation_stack: [],
         disable_back: true
@@ -67,6 +76,8 @@ let app = new Vue({
                    .then(function (response) {
                         app.current_dirs = response["data"]["dirs"]
                         app.current_files = response["data"]["files"]
+                        app.all_items = []
+                        app.all_items = app.all_items.concat(app.current_dirs, app.current_files)
                         app.render_index();  // Render index file if present
                         return
                    })
@@ -180,6 +191,9 @@ let app = new Vue({
                 .then(function (response) {
                     app.username = response["data"]["username"]
                 })
+        },
+        change_page: function (page) {
+            app.current_page = page
         }
     },
     /**

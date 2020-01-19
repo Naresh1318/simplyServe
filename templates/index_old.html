@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="/static/css/index.css">
+<div id="app">
+
+<!-- Loading Screen-->
+<div id="overlay">
+    <div id="progstat"></div>
+    <div id="progress"></div>
+</div>
+
+{% include 'nav_bar_old.html' %}
+
+<vs-row>
+    <vs-col vs-w="3" style="padding: 1rem">
+
+        <!-- Filesystem nav bar -->
+        <vs-row style="padding: 0.5rem">
+            <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
+                <vs-button v-bind:disabled="disable_back" v-on:click="navigate_back()" radius color="dark" type="flat" icon="arrow_back"></vs-button>
+            </vs-col>
+            <vs-col vs-type="flex" vs-offset="0" vs-align="center" vs-w="3">
+                <vs-button v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" type="flat" icon="home"></vs-button>
+            </vs-col>
+            <vs-col vs-type="flex" v-if="selected.length > 0" vs-w="3">
+                <vs-button color="dark" type="filled" v-on:click="download_selected" style="display: inline-block">Download</vs-button>
+            </vs-col>
+        </vs-row>
+        <vs-row>
+            <vs-col>
+                {{ get_relative_path(current_dir) }}
+            </vs-col>
+        </vs-row>
+        <vs-row>
+            <vs-col vs-type="flex">
+                <vs-divider/>
+            </vs-col>
+        </vs-row>
+
+        <!-- Directories -->
+        <vs-row style="max-width: 100%; padding: 0rem">
+            <vs-col vs-type="flex" vs-w="12">
+                <vs-table :data="current_dirs" pagination search>
+                    <template slot="header">
+                        <h3 class="table_header"> Directories </h3>
+                    </template>
+
+                    <template slot="thead">
+                        <vs-th class="file_list_item"  sort-key="name">Name</vs-th>
+                    </template>
+
+                    <template slot-scope="{data}">
+                        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+                            <vs-td :data="data[indextr].name">
+                                <div class="file_list_item" v-on:click="navigate_to(data[indextr].name)"> {{ data[indextr].name }} </div>
+                            </vs-td>
+                        </vs-tr>
+                    </template>
+                </vs-table>
+            </vs-col>
+        </vs-row>
+
+        <!-- Files -->
+        <vs-row style="max-width: 100%; padding: 0rem;">
+            <vs-col vs-type="flex" vs-w="12">
+                <vs-table multiple v-model="selected" :data="current_files" pagination search>
+                    <template slot="header">
+                        <h3 class="table_header">Files</h3>
+                    </template>
+
+                    <template slot="thead">
+                        <vs-th sort-key="name">Name</vs-th>
+                        <vs-th>Size</vs-th>
+                    </template>
+
+                    <template slot-scope="{data}">
+                        <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" >
+                            <vs-td :data="data[indextr].name">
+                                <div class="file_list_item">
+                                    <a :href="get_file_link(data[indextr].name)" download> {{ data[indextr].name }} </a>
+                                </div>
+                            </vs-td>
+                            <vs-td :data="data[indextr.size]">
+                                {{ data[indextr].size }}
+                            </vs-td>
+                        </vs-tr>
+                    </template>
+                </vs-table>
+            </vs-col>
+        </vs-row>
+    </vs-col>
+
+    <!-- Render HTML -->
+    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="9" style="padding: 0.5rem">
+        <div id="index_viewer">
+
+        </div>
+    </vs-col>
+</vs-row>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+<script src="/static/js/index.js"></script>
+{% endblock %}

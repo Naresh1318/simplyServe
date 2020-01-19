@@ -53,8 +53,8 @@ def ls():
     if "linked_dir" not in dir_path or ".." in dir_path or "~" in dir_path:
         return redirect(url_for("file_manager.home"))
     dir_files, dir_file_sizes, dir_dirs = list_files_n_dirs(dir_path)
-    response = {"files": [{"name": i, "size": j} for i, j in zip(dir_files, dir_file_sizes)],
-                "dirs": [{"name": i} for i in dir_dirs]}
+    response = {"files": [{"name": i, "size": j, "is_file": True} for i, j in zip(dir_files, dir_file_sizes)],
+                "dirs": [{"name": i, "size": "---", "is_file": False} for i in dir_dirs]}
     return jsonify(response)
 
 

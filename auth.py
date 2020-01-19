@@ -40,7 +40,7 @@ def admin():
     if current_user.email != admin_email:
         return redirect(url_for("file_manager.home"))
     if request.method == "GET":
-        return render_template("admin.html")
+        return render_template("admin_old.html")
 
 
 @bp.route("/add_user", methods=["POST"])

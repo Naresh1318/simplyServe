@@ -1,5 +1,6 @@
 let vue_login = new Vue({
     el: "#app",
+    vuetify: new Vuetify(),
     data: {
         email: "",
         password: "",
