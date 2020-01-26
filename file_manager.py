@@ -130,8 +130,8 @@ def uploads_ls():
     dir_path = request.args.get("path")
     abs_path = os.path.abspath(os.path.join(app.config["UPLOAD_FOLDER"], dir_path))
     dir_files, dir_file_sizes, dir_dirs = list_files_n_dirs(abs_path)
-    response = {"files": [{"name": i, "size": j} for i, j in zip(dir_files, dir_file_sizes)],
-                "dirs": [{"name": i} for i in dir_dirs]}
+    response = {"files": [{"name": i, "size": j, "is_file": True} for i, j in zip(dir_files, dir_file_sizes)],
+                "dirs": [{"name": i, "size": "---", "is_file": False} for i in dir_dirs]}
     return jsonify(response)
 
 
