@@ -10,12 +10,13 @@ from werkzeug.security import generate_password_hash
 class CustomFlask(Flask):
     jinja_options = Flask.jinja_options.copy()
     jinja_options.update(dict(
-        variable_start_string='%%',  # Default is '{{', I'm changing this because Vue.js uses '{{' / '}}'
+        # Default is '{{', I'm changing this because Vue.js uses '{{' / '}}'
+        variable_start_string='%%',
         variable_end_string='%%',
     ))
 
 
-# # # Create symbolic link to the required path, this is needed to download files in the appropriate format
+# # Create symbolic link to the required path, this is needed to download files in the appropriate format
 # default_path: str = os.environ.get("SERVE_DIR")
 # symbolic_path = "./linked_dir"
 # if os.path.exists(symbolic_path):
