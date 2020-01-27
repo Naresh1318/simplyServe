@@ -23,7 +23,7 @@ def home():
         Rendered template
     """
     if current_user.is_authenticated:
-        return render_template("./index.html")
+        return render_template("./index.html", page="Home")
     else:
         return redirect(url_for("auth.login"))
 
@@ -99,27 +99,26 @@ def download_public(path):
     return send_from_directory(directory, filename)
 
 
-@bp.route("/public_uploads", methods=["GET", "POST"])
+@bp.route("/public_uploads", methods=["POST"])
 @login_required
 def public_uploads():
     if current_user.email != admin_email:
         return jsonify({"ERROR": "User not admin"})
-    if request.method == "GET":
-        return render_template("public_uploads.html")
-    if "file" not in request.files:
-        return jsonify({"ERROR": "No file uploaded"})
+    if len(request.files) < 1:
+        return jsonify({"ERROR": "Could not find files to upload"})
 
-    file = request.files["file"]
-    if file.filename == "":
-        return jsonify({"ERROR": "No file uploaded"})
+    for key in request.files:
+        file = request.files[key]
+        if file.filename == "":
+            return jsonify({"ERROR": "No file uploaded"})
 
-    filename = secure_filename(file.filename)
-    folder = request.args.get("folder").split(".")[1]
-    if folder != "":
-        folder = folder[1:]  # Remove / prefix before join
-    upload_dir = os.path.join(app.config["UPLOAD_FOLDER"], folder)
-    file.save(os.path.join(upload_dir, filename))
-    return jsonify({"INFO": "File uploaded", "file_name": filename})
+        filename = secure_filename(file.filename)
+        folder = request.args.get("folder").split(".")[1]
+        if folder != "":
+            folder = folder[1:]  # Remove / prefix before join
+        upload_dir = os.path.join(app.config["UPLOAD_FOLDER"], folder)
+        file.save(os.path.join(upload_dir, filename))
+    return jsonify({"INFO": "Uploaded"})
 
 
 @bp.route("/uploads_ls", methods=["GET"])
