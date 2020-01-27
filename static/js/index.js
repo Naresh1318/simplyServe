@@ -18,14 +18,28 @@ function insertAndExecute(id, text) {
     }
 }
 
+// Upload button
+const upload_btn = document.getElementById("file")
+const upload_text = document.getElementById("upload_text")
+
+upload_btn.addEventListener("change", function() {
+    if (upload_btn.value) {
+        upload_text.innerText = upload_btn.value.match(
+          /[\/\\]([\w\d\s\.\-\(\)]+)$/
+        )[1]
+    } else {
+        upload_text.innerText = "No file chosen, yet.";
+    }
+})
+
 let app = new Vue({
     el: "#app",
     vuetify: new Vuetify(),
     data: {
-        pages: [{title: "Home", icon: "home"},
+        pages: [{title: "Home", icon: "folder"},
                 {title: "Public", icon: "public"},
                 {title: "Admin", icon: "gavel"}],
-        current_page: "Home",
+        current_page: page,
         index_html_file: ".index.html",
         username: "",
         server_name: "",
@@ -41,13 +55,21 @@ let app = new Vue({
         item_search: "",
         selected: [],
         navigation_stack: [],
-        disable_back: true
+        disable_back: true,
+        show_clipboard_alert: false,
+        loading_status: false,
+        show_upload_alert: false,
+        upload_status: "",
+        admin_users_list: [],
+        admin_users_header: [{text: "Email", align: "left", sorted: true, value: "email"},
+                             {text: "Username", value: "username"},
+                             {text: "Actions", value: "action", sortable: false }]
     },
     methods: {
         /**
         * Gets and sets the default home directory. Also, check if current user is the admin
         */
-        initial_setup: function() {
+        home_page_setup: function() {
             axios.get("/default_dir")
             .then(function (response) {
                 app.default_dir = response["data"]["default_dir"]
@@ -57,33 +79,93 @@ let app = new Vue({
                 console.log("ERROR: " + error)
             })
             .then(function() {
-                app.list_dir(app.current_dir)
                 app.is_admin()
+                app.list_dir(app.current_dir)
                 app.get_username()
             })
+        },
+        upload_page_setup: function() {
+            app.default_dir = "."
+            app.current_dir = "."
+            app.list_dir(app.current_dir)
+        },
+        admin_page_setup: function() {
+            app.list_users()
         },
         /**
         * Retrieves and sets current_dirs and current_files variables. Index files rendering function is called
         * after obtaining the current files in the directory.
-        * @param {string} path path to retrieve and list files/dirs from
+        * @param {string} path, path to retrieve and list files/dirs from
         */
         list_dir: function(path) {
-            return axios.get("/ls", {
-                        params: {
-                        "path": path
-                        }
-                   })
-                   .then(function (response) {
-                        app.current_dirs = response["data"]["dirs"]
-                        app.current_files = response["data"]["files"]
-                        app.all_items = []
-                        app.all_items = app.all_items.concat(app.current_dirs, app.current_files)
+            let ls_route
+            if (app.current_page === "Home") {
+                ls_route = "/ls"
+            } else if (app.current_page === "Public") {
+                ls_route = "/uploads_ls"
+            }
+            return axios.get(ls_route, {
+                    params: {
+                    "path": path
+                    }
+               })
+                .then(function (response) {
+                    app.current_dirs = response["data"]["dirs"]
+                    app.current_files = response["data"]["files"]
+                    app.all_items = []
+                    app.all_items = app.all_items.concat(app.current_dirs, app.current_files)
+
+                    if (app.current_page === "Home") {
                         app.render_index();  // Render index file if present
-                        return
-                   })
-                   .catch(function(error) {
-                        console.log("ERROR: " + error)
-                   })
+                    }
+                    else if (app.current_page === "Public") {
+                        for (let i=0; i < app.all_items.length; i++) {
+                            if (app.all_items[i].is_file) {
+                                if (app.current_dir === ".") {
+                                    let split_url = document.URL.split("/")
+                                    app.all_items[i]["link"] = `${split_url[0]}//` + split_url[2]
+                                        + `/public/${app.current_dir.slice(1, app.current_dir.length)}` + app.all_items[i]["name"]
+                                }
+                                else {
+                                    let split_url = document.URL.split("/")
+                                    app.all_items[i]["link"] = `${split_url[0]}//` + split_url[2]
+                                        + `/public${app.current_dir.slice(1, app.current_dir.length)}/` + app.all_items[i]["name"]
+                                    }
+                            }
+                        }
+                    }
+                })
+                .catch(function(error) {
+                    console.log("ERROR: " + error)
+                })
+        },
+        upload_file_selector: function() {
+            upload_btn.click()
+        },
+        upload: function() {
+            let formData = new FormData();
+            // let file = document.querySelector("#file");
+            for (let i=0; i<upload_btn.files.length; i++) {
+                formData.append(upload_btn.files[i].name, upload_btn.files[i]);
+            }
+            app.loading_status = true
+            axios.post(app.get_upload_url(), formData, {
+                headers: {
+                  "Content-Type": "multipart/form-data"
+                }
+            }).then((response) => {
+                app.loading_status = false
+                if (response.data.INFO) {
+                    // Write status to snicker bar
+                    app.upload_status = response.data.INFO
+                    // Reload page after upload
+                    app.navigate_to(app.current_dir, true)
+                } else {
+                    // Write status to snicker bar
+                    app.upload_status = response.data.ERROR
+                }
+                app.show_upload_alert = true
+            })
         },
         /**
          * Sets current_dir to the previous dir and updates navigation_stack
@@ -103,7 +185,7 @@ let app = new Vue({
         navigate_to: function(dir, abs_path=false) {
             app.navigation_stack.push(app.current_dir)
             if (abs_path)
-                app.current_dir = app.default_dir
+                app.current_dir = dir
             else
                 app.current_dir = app.current_dir + "/" + dir
             app.list_dir(app.current_dir)
@@ -116,6 +198,19 @@ let app = new Vue({
          */
         get_file_link: function(file) {
             return this.current_dir.split("simplyServe")[1] + "/"  + file
+        },
+        /**
+         * Copy text to clipboard
+         * @param text, text to copy
+         */
+        copy_to_clipboard: function (text) {
+            let dummy = document.createElement("textarea")
+            document.body.appendChild(dummy)
+            dummy.value = text
+            dummy.select()
+            document.execCommand("copy")
+            document.body.removeChild(dummy)
+            app.show_clipboard_alert = true
         },
         /**
          * Returns relative path from linked_dir using the absolute path
@@ -194,7 +289,27 @@ let app = new Vue({
         },
         change_page: function (page) {
             app.current_page = page
-        }
+            if (app.current_page === "Home") {
+                app.home_page_setup()
+            } else if (app.current_page === "Public") {
+                app.upload_page_setup()
+            } else if (app.current_page === "Admin") {
+                app.admin_page_setup()
+            }
+        },
+        get_upload_url: function() {
+          return `/public_uploads?folder=${this.current_dir}`
+        },
+        /**
+         * Get a list of all users in the database
+         * Use this function to update users list when needed
+         */
+        list_users: function() {
+            axios.get("/list_users")
+                .then(function(response) {
+                    app.admin_users_list = response["data"]["users_list"]
+                })
+        },
     },
     /**
      * Performs initial setup when the page is loaded
@@ -207,6 +322,6 @@ let app = new Vue({
             })
 
         // Perform initial setup
-        this.initial_setup()
+        this.home_page_setup()
     }
 })
