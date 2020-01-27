@@ -1,0 +1,9 @@
+<v-row style="height: 25%">
+    <v-col cols="6" style="margin: auto">
+        <v-data-table :headers="admin_users_header" :items="admin_users_list" class="elevation-1">
+            <template v-slot:item.action="{ item }">
+                <v-icon small class="mr-2" @click="">delete</v-icon>
+            </template>
+        </v-data-table>
+    </v-col>
+</v-row>
