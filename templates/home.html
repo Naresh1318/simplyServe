@@ -1,17 +1,27 @@
-<v-row xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <v-col>
-        <v-card>
+<v-row>
+    <v-col cols="4">
+        <v-card style="height: 95vh;">
             <v-list two-line subheader>
-                <v-subheader inset>
-                    <v-btn v-bind:disabled="disable_back" v-on:click="navigate_back()" radius color="dark">
-                        <v-icon>arrow_back</v-icon>
-                    </v-btn>
+                <v-subheader>
+                    <v-row>
+                        <v-col style="flex-grow: 0">
+                            <v-btn v-bind:disabled="disable_back" v-on:click="navigate_back()" radius color="dark" icon>
+                                <v-icon>arrow_back</v-icon>
+                            </v-btn>
+                        </v-col>
+                        <v-col style="flex-grow: 0">
+                            <v-btn v-bind:disabled="disable_back" v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" icon>
+                                <v-icon>home</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
                 </v-subheader>
+                <v-divider style="width: 90%; margin: auto"></v-divider>
                 <div v-for="item in all_items">
                     <a v-if="item.is_file" :href="get_file_link(item.name)" download>
                         <v-list-item :key="item.name" @click="">
                             <v-list-item-avatar>
-                                <v-icon class="grey lighten-1 white--text">assignment</v-icon>
+                                <v-icon class="grey white--text">assignment</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -24,18 +34,20 @@
                     <div v-else>
                         <v-list-item :key="item.name" @click="navigate_to(item.name)">
                             <v-list-item-avatar>
-                                <v-icon class="grey lighten-1 white--text">folder</v-icon>
+                                <v-icon class="grey white--text">folder</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title>{{ item.name }}</v-list-item-title>
                             </v-list-item-content>
-                            <v-list-item-action>
-                                {{ item.size }}
-                            </v-list-item-action>
                         </v-list-item>
                     </div>
                 </div>
             </v-list>
         </v-card>
+    </v-col>
+
+    <!-- Render HTML -->
+    <v-col cols="8" style="height: 95vh">
+        <div id="index_viewer"></div>
     </v-col>
 </v-row>
