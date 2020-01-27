@@ -11,21 +11,31 @@
     {% include 'nav_bar.html' %}
 
     <v-content>
-        <v-container class="fill-height">
-            <div v-show="current_page==='Home'">
-                {% include 'home.html' %}
-            </div>
-            <div v-show="current_page==='Public'">
-                {% include 'public.html' %}
-            </div>
-            <div v-show="current_page==='Admin'">
-                {% include 'admin.html' %}
-            </div>
+        <v-container style="max-width: 100%">
+        <div v-if="current_page==='Home'">
+            {% include 'home.html' %}
+
+        </div>
+        <div v-else-if="current_page==='Public'">
+            {% include 'public.html' %}
+        </div>
+        <div v-else="current_page==='Admin'">
+            {% include 'admin.html' %}
+        </div>
         </v-container>
+        <v-snackbar v-model="show_clipboard_alert">
+            <b>Link copied to clipboard!</b>
+            <v-btn color="white" text @click="show_clipboard_alert = false"><b>Close</b></v-btn>
+        </v-snackbar>
+        <v-snackbar v-model="show_upload_alert">
+            <b>{{ upload_status }}</b>
+            <v-btn color="white" text @click="show_upload_alert = false"><b>Close</b></v-btn>
+        </v-snackbar>
     </v-content>
 </v-app>
 
 </div>
+<script>var page="%%page%%"</script>  <!-- page variable is used inside index.js to set current_page -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
 <script src="/static/js/index.js"></script>
 {% endblock %}
