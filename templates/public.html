@@ -1,1 +1,79 @@
-publicsdfsadfsafs
+<v-row>
+    <v-col cols="4">
+        <v-card style="height: 95vh;overflow-y: auto">
+            <v-list two-line subheader>
+                <v-subheader>
+                    <v-row>
+                        <v-col style="flex-grow: 0">
+                            <v-btn v-bind:disabled="disable_back" v-on:click="navigate_back()" radius color="dark" icon>
+                                <v-icon>arrow_back</v-icon>
+                            </v-btn>
+                        </v-col>
+                        <v-col style="flex-grow: 0">
+                            <v-btn v-bind:disabled="disable_back" v-on:click="navigate_to(default_dir, abs_path=true)" radius color="dark" icon>
+                                <v-icon>home</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+                </v-subheader>
+                <v-divider style="width: 90%; margin: auto"></v-divider>
+                <div v-for="item in all_items">
+                    <v-row v-if="item.is_file" no-gutters justify="center" align="center">
+                        <v-col cols="11">
+                            <a :href="get_file_link(item.name)" download>
+                                <v-list-item :key="item.name" @click="">
+                                    <v-list-item-avatar>
+                                        <v-icon class="grey white--text">assignment</v-icon>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content>
+                                        <v-list-item-title>{{ item.name }}</v-list-item-title>
+                                    </v-list-item-content>
+                                    <v-list-item-action>
+                                        {{ item.size }}
+                                    </v-list-item-action>
+                                </v-list-item>
+                            </a>
+                        </v-col>
+                        <v-col cols="1">
+                            <v-btn @click="copy_to_clipboard(item.link)" icon>
+                                <v-icon>link</v-icon>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
+
+                    <v-row v-else no-gutters>
+                        <v-col cols="12">
+                            <v-list-item :key="item.name" @click="navigate_to(item.name)">
+                                <v-list-item-avatar>
+                                    <v-icon class="grey white--text">folder</v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title>{{ item.name }}</v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-col>
+                    </v-row>
+                </div>
+            </v-list>
+        </v-card>
+    </v-col>
+
+    <v-col cols="8" style="height: 25%; margin: auto">
+        <v-card width="40%" style="width: 40%; margin: auto; border: 0" outlined>
+            <v-row align="center" margin="center">
+                <v-col cols="12" style="text-align: center">
+                    <input multiple="multiple" type="file" name="file" id="file" enctype="multipart/form-data" hidden="hidden"/>
+                    <a @click="upload_file_selector()" class="ma-2">
+                        <v-icon style="font-size: 10rem">cloud_upload</v-icon>
+                    </a>
+                </v-col>
+                <v-col cols="12">
+                    <div id="upload_text"></div>
+                </v-col>
+                <v-col cols="3" style="margin: auto">
+                    <v-btn @click="upload()" dark>Upload</v-btn>
+                </v-col>
+            </v-row>
+        </v-card>
+    </v-col>
+</v-row>
