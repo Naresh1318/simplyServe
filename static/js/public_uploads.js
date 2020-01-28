@@ -1,6 +1,11 @@
 let vue_upload = new Vue({
     el: "#app",
+    vuetify: new Vuetify(),
     data: {
+        pages: [{title: "Home", icon: "folder"},
+                {title: "Public", icon: "public"},
+                {title: "Admin", icon: "gavel"}],
+        current_page: "Home",
         username: "",
         server_name: "",
         admin: false,
@@ -170,6 +175,9 @@ let vue_upload = new Vue({
                     vue_upload.reload(vue_upload.current_dir)
                 })
         },
+        change_page: function (page) {
+            vue_upload.current_page = page
+        }
     },
     created: function () {
         this.default_dir = "."

@@ -23,13 +23,9 @@
             {% include 'admin.html' %}
         </div>
         </v-container>
-        <v-snackbar v-model="show_clipboard_alert">
-            <b>Link copied to clipboard!</b>
-            <v-btn color="white" text @click="show_clipboard_alert = false"><b>Close</b></v-btn>
-        </v-snackbar>
-        <v-snackbar v-model="show_upload_alert">
-            <b>{{ upload_status }}</b>
-            <v-btn color="white" text @click="show_upload_alert = false"><b>Close</b></v-btn>
+        <v-snackbar v-model="show_alert">
+            <b>{{ alert_status }}</b>
+            <v-btn color="white" text @click="show_alert = false"><b>Close</b></v-btn>
         </v-snackbar>
     </v-content>
 </v-app>

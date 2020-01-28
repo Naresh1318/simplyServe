@@ -36,9 +36,9 @@ let app = new Vue({
     el: "#app",
     vuetify: new Vuetify(),
     data: {
-        pages: [{title: "Home", icon: "folder"},
-                {title: "Public", icon: "public"},
-                {title: "Admin", icon: "gavel"}],
+        pages: [{title: "Home", icon: "folder", show: true},
+                {title: "Public", icon: "public", show: false},
+                {title: "Admin", icon: "gavel", show: false}],
         current_page: page,
         index_html_file: ".index.html",
         username: "",
@@ -56,14 +56,15 @@ let app = new Vue({
         selected: [],
         navigation_stack: [],
         disable_back: true,
-        show_clipboard_alert: false,
         loading_status: false,
-        show_upload_alert: false,
-        upload_status: "",
+        show_alert: false,
+        alert_status: "",
         admin_users_list: [],
         admin_users_header: [{text: "Email", align: "left", sorted: true, value: "email"},
                              {text: "Username", value: "username"},
-                             {text: "Actions", value: "action", sortable: false }]
+                             {text: "Actions", value: "action", sortable: false }],
+        admin_add_user_default: {username: "", email: "", password: ""},
+        admin_add_user_dialog: false
     },
     methods: {
         /**
@@ -157,14 +158,14 @@ let app = new Vue({
                 app.loading_status = false
                 if (response.data.INFO) {
                     // Write status to snicker bar
-                    app.upload_status = response.data.INFO
+                    app.alert_status = response.data.INFO
                     // Reload page after upload
                     app.navigate_to(app.current_dir, true)
                 } else {
                     // Write status to snicker bar
-                    app.upload_status = response.data.ERROR
+                    app.alert_status = response.data.ERROR
                 }
-                app.show_upload_alert = true
+                app.show_alert = true
             })
         },
         /**
@@ -210,7 +211,8 @@ let app = new Vue({
             dummy.select()
             document.execCommand("copy")
             document.body.removeChild(dummy)
-            app.show_clipboard_alert = true
+            app.alert_status = "Copied to clipboard!"
+            app.show_alert = true
         },
         /**
          * Returns relative path from linked_dir using the absolute path
@@ -276,6 +278,8 @@ let app = new Vue({
             axios("/is_admin")
                 .then(function(response) {
                     app.admin = response["data"]["admin"]
+                    app.pages[1].show = app.admin
+                    app.pages[2].show = app.admin
                 })
         },
         /**
@@ -310,6 +314,53 @@ let app = new Vue({
                     app.admin_users_list = response["data"]["users_list"]
                 })
         },
+        admin_close_dialog: function() {
+            this.admin_add_user_dialog = false
+            setTimeout(() => {
+                this.admin_add_user_default = {username: "", email: "", password: ""}
+            }, 300)
+        },
+        admin_save_dialog: function () {
+            if (app.admin_add_user_default.email.length < 1 || app.admin_add_user_default.username.length < 1
+                || app.admin_add_user_default.password.length < 1) {
+                app.alert_status = "Invalid Input"
+                app.show_alert = true
+                return
+            }
+
+            axios.post("add_user",
+                {
+                    "username": app.admin_add_user_default.username,
+                    "email": app.admin_add_user_default.email,
+                    "password": app.admin_add_user_default.password
+                })
+                .then(function(response) {
+                    if (response["data"]["user_added"]) {
+                        app.admin_add_user_default = {username: "", email: "", password: ""}
+                        app.alert_status = "User added!"
+                    }
+                    else {
+                        app.alert_status = "Email taken or invalid input :("
+                    }
+                    app.show_alert = true
+                    app.admin_page_setup()
+                })
+        },
+        admin_delete_user: function(email) {
+            axios.post("delete_user",
+                {
+                    "email": email
+                }).then(function(response) {
+                    if (response["data"]["user_deleted"]) {
+                        app.alert_status = "User deleted!"
+                    }
+                    else {
+                        app.alert_status = "User not found :( or admin cannot be deleted"
+                    }
+                    app.show_alert = true
+                    app.admin_page_setup()
+                })
+        }
     },
     /**
      * Performs initial setup when the page is loaded

@@ -7,14 +7,15 @@
         </v-list-item>
 
         <v-list-item link :key="p.title" class="pa-5" v-for="p in pages" @click="change_page(p.title)">
-            <v-list-item-icon>
-                <v-icon color="#212121">{{ p.icon }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-                <v-list-item-title>{{ p.title }}</v-list-item-title>
-            </v-list-item-content>
+            <template v-if="p.show">
+                <v-list-item-icon>
+                    <v-icon color="#212121">{{ p.icon }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                    <v-list-item-title>{{ p.title }}</v-list-item-title>
+                </v-list-item-content>
+            </template>
         </v-list-item>
-
     </v-list>
 
     <template v-slot:append>
