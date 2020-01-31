@@ -1,7 +1,7 @@
 <div style="float: right">Welcome <b>{{ username }}!</b></div><br>
 <v-row>
-    <v-col cols="12" style="margin: auto">
-        <v-data-table :headers="admin_users_header" :items="admin_users_list" class="elevation-1">
+    <v-col cols="6" style="margin: auto">
+        <v-data-table class="admin-user-table" :headers="admin_users_header" :items="admin_users_list">
             <template v-slot:top>
                 <v-toolbar flat color="white">
                     <v-toolbar-title>All users who have access to your site</v-toolbar-title>

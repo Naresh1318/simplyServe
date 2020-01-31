@@ -1,8 +1,8 @@
 <div style="float: right">Welcome <b>{{ username }}!</b></div>
 <v-row>
     <v-col cols="4">
-        <v-card style="height: 95vh;">
-            <v-list two-line subheader>
+        <v-card class="file-manager-theme">
+            <v-list class="file-manager-item" two-line subheader>
                 <v-subheader>
                     <v-row>
                         <v-col style="flex-grow: 0">
@@ -22,7 +22,7 @@
                     <a v-if="item.is_file" :href="get_file_link(item.name)" download>
                         <v-list-item :key="item.name" @click="">
                             <v-list-item-avatar>
-                                <v-icon class="grey white--text">assignment</v-icon>
+                                <v-icon class="blue white--text">assignment</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -35,7 +35,7 @@
                     <div v-else>
                         <v-list-item :key="item.name" @click="navigate_to(item.name)">
                             <v-list-item-avatar>
-                                <v-icon class="grey white--text">folder</v-icon>
+                                <v-icon class="yellow white--text">folder</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title>{{ item.name }}</v-list-item-title>

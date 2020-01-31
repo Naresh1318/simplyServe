@@ -15,21 +15,6 @@ button {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
-.vs-list--slot {
-    margin-left: 0;
-}
-
-.file_list_item {
-    padding: 0.25rem;
-    max-width: 14rem;
-}
-
-.table_header {
-    padding: 0.5rem;
-    max-width: 14rem;
-    font-size: 1.5rem;
-}
-
 a:link {
     text-decoration: none;
     color: black;
@@ -39,46 +24,37 @@ a:visited {
     text-decoration: none;
     color: black;
 }
-.vs-con-table table {
-    font-size: 1rem;
+
+/* Navigation Bar */
+.nav-bar-theme {
+    box-shadow: 10px 0 20px 1px #FFF9C4;
+    background-color: #FDD835 !important;
+    border-color: #FFCA28;
 }
 
-.vs-con-table table:hover {
-    cursor: pointer;
+.nav-bar-icon {
+    color: #000 !important;
 }
 
-th {
-    font-size: 1rem;
+.nav-bar-icon-card {
+    box-shadow: 0 0 50px -10px #BDBDBD !important;
+    background-color: #FFF !important;
+    padding: 0 5px;
 }
 
-.vs-pagination-primary .effect, .vs-pagination-primary .vs-pagination--buttons:hover {
-    background: rgba(30, 30, 30, 1)!important;
+.file-manager-theme {
+    height: 95vh;
+    background-color: #F5F5F5 !important;
+    box-shadow: 0 0 30px -10px #BDBDBD !important;
+    border-radius: 10px;
+    overflow-y: auto;
 }
 
-.vs-pagination-primary li:hover:not(.is-current) {
-    color: rgba(30, 30, 30, 1)!important;
+.file-manager-item {
+    background-color: #F5F5F5 !important;
 }
 
-/* Dark checkbox */
-.vs-checkbox-primary .vs-checkbox--check {
-    background: rgba(30, 30, 30, 1);
-}
-
-/* Dark checkbox border */
-.vs-checkbox-primary input:checked+.vs-checkbox {
-    border: 2px solid rgba(30, 30, 30, 1)!important;
-}
-
-/* Dark selected item background */
-.vs-table-primary .is-selected {
-    -webkit-transform: translate(0)!important;
-    transform: translate(0)!important;
-    background: rgba(30, 30, 30, .05)!important;
-}
-
-/* Dark selected text */
-.tr-table-state-primary, .vs-table-primary .is-selected {
-    color: rgba(30, 30, 30, 1);
-    -webkit-box-shadow: 0 0 1px 0 rgba(30, 30, 30, 1)!important;
-    box-shadow: 0 0 1px 0 rgba(30, 30, 30, 1)!important;
+.admin-user-table {
+    background-color: #F5F5F5 !important;
+    box-shadow: 0 0 30px -10px #BDBDBD !important;
 }

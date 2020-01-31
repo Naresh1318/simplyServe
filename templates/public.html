@@ -1,8 +1,8 @@
 <div style="float: right">Welcome <b>{{ username }}!</b></div>
 <v-row>
     <v-col cols="4">
-        <v-card style="height: 95vh;overflow-y: auto">
-            <v-list two-line subheader>
+        <v-card class="file-manager-theme">
+            <v-list class="file-manager-item" two-line subheader>
                 <v-subheader>
                     <v-row>
                         <v-col style="flex-grow: 0">
@@ -20,11 +20,11 @@
                 <v-divider style="width: 90%; margin: auto"></v-divider>
                 <div v-for="item in all_items">
                     <v-row v-if="item.is_file" no-gutters justify="center" align="center">
-                        <v-col cols="11">
+                        <v-col cols="10">
                             <a :href="get_file_link(item.name)" download>
                                 <v-list-item :key="item.name" @click="">
                                     <v-list-item-avatar>
-                                        <v-icon class="grey white--text">assignment</v-icon>
+                                        <v-icon class="blue white--text">assignment</v-icon>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
                                         <v-list-item-title>{{ item.name }}</v-list-item-title>
@@ -35,7 +35,7 @@
                                 </v-list-item>
                             </a>
                         </v-col>
-                        <v-col cols="1">
+                        <v-col cols="2" style="text-align: center">
                             <v-btn @click="copy_to_clipboard(item.link)" icon>
                                 <v-icon>link</v-icon>
                             </v-btn>
@@ -46,7 +46,7 @@
                         <v-col cols="12">
                             <v-list-item :key="item.name" @click="navigate_to(item.name)">
                                 <v-list-item-avatar>
-                                    <v-icon class="grey white--text">folder</v-icon>
+                                    <v-icon class="yellow white--text">folder</v-icon>
                                 </v-list-item-avatar>
                                 <v-list-item-content>
                                     <v-list-item-title>{{ item.name }}</v-list-item-title>
