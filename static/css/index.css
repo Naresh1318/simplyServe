@@ -27,7 +27,7 @@ a:visited {
 
 /* Navigation Bar */
 .nav-bar-theme {
-    box-shadow: 10px 0 20px 1px #FFF9C4;
+    box-shadow: 5px 0 20px 1px #FFF9C4;
     background-color: #FDD835 !important;
     border-color: #FFCA28;
 }
@@ -38,7 +38,7 @@ a:visited {
 
 .nav-bar-icon-card {
     box-shadow: 0 0 50px -10px #BDBDBD !important;
-    background-color: #FFF !important;
+    background-color: #F5F5F5 !important;
     padding: 0 5px;
 }
 
@@ -48,6 +48,7 @@ a:visited {
     box-shadow: 0 0 30px -10px #BDBDBD !important;
     border-radius: 10px;
     overflow-y: auto;
+    max-width: 500px;
 }
 
 .file-manager-item {
@@ -57,4 +58,10 @@ a:visited {
 .admin-user-table {
     background-color: #F5F5F5 !important;
     box-shadow: 0 0 30px -10px #BDBDBD !important;
+    max-width: 750px;
+    margin-left: 1rem
+}
+
+.admin-tool-bar {
+    background-color: #F5F5F5 !important;
 }

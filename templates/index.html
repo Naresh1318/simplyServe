@@ -12,16 +12,16 @@
 
     <v-content>
         <v-container style="max-width: 100%">
-        <div v-if="current_page==='Home'">
-            {% include 'home.html' %}
+            <div v-if="current_page==='Home'">
+                {% include 'home.html' %}
 
-        </div>
-        <div v-else-if="current_page==='Public'">
-            {% include 'public.html' %}
-        </div>
-        <div v-else="current_page==='Admin'">
-            {% include 'admin.html' %}
-        </div>
+            </div>
+            <div v-else-if="current_page==='Public'">
+                {% include 'public.html' %}
+            </div>
+            <div v-else="current_page==='Admin'">
+                {% include 'admin.html' %}
+            </div>
         </v-container>
         <v-snackbar v-model="show_alert">
             <b>{{ alert_status }}</b>

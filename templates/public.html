@@ -1,5 +1,5 @@
 <div style="float: right">Welcome <b>{{ username }}!</b></div>
-<v-row>
+<v-row align="center">
     <v-col cols="4">
         <v-card class="file-manager-theme">
             <v-list class="file-manager-item" two-line subheader>
@@ -59,20 +59,20 @@
         </v-card>
     </v-col>
 
-    <v-col cols="8" style="height: 25%; margin: auto">
-        <v-card width="40%" style="width: 40%; margin: auto; border: 0" outlined>
+    <v-col cols="8">
+        <v-card style="border: 0" outlined>
             <v-row align="center" margin="center">
                 <v-col cols="12" style="text-align: center">
                     <input multiple="multiple" type="file" name="file" id="file" enctype="multipart/form-data" hidden="hidden"/>
                     <a @click="upload_file_selector()" class="ma-2">
-                        <v-icon style="font-size: 10rem">cloud_upload</v-icon>
+                        <v-icon style="font-size: 10rem;">cloud_upload</v-icon>
                     </a>
                 </v-col>
                 <v-col cols="12">
                     <div id="upload_text"></div>
                 </v-col>
-                <v-col cols="3" style="margin: auto">
-                    <v-btn @click="upload()" dark>Upload</v-btn>
+                <v-col cols="3" style="margin: auto; text-align: center">
+                    <v-btn @click="upload()" color="#F5F5F5">Upload</v-btn>
                 </v-col>
             </v-row>
         </v-card>
