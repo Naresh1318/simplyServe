@@ -59,6 +59,14 @@ let app = new Vue({
         loading_status: false,
         show_alert: false,
         alert_status: "",
+        public_new_item_name: "",
+        public_create_folder_dialog: false,
+        public_context_menu_dialog: false,
+        public_rename_item_dialog: false,
+        public_delete_item_dialog: false,
+        public_item_name: "",
+        public_context_x: 0,
+        public_context_y: 0,
         admin_users_list: [],
         admin_users_header: [{text: "Email", align: "left", sorted: true, value: "email"},
                              {text: "Username", value: "username"},
@@ -313,6 +321,83 @@ let app = new Vue({
                 .then(function(response) {
                     app.admin_users_list = response["data"]["users_list"]
                 })
+        },
+        public_create_folder: function() {
+            if (this.public_new_item_name === "" || this.public_new_item_name === null) {
+                app.alert_status = "Invalid folder name"
+                app.show_alert = true
+                return
+            }
+
+            axios.post("/create_folder", {
+                path: app.current_dir,
+                name: app.public_new_item_name
+            }).then((response) => {
+                if (response["data"]["INFO"]) {
+                    app.alert_status = "Folder created!"
+                    app.show_alert = true
+                    app.list_dir(app.current_dir)
+                }
+                else {
+                    app.alert_status = "Folder exists"
+                    app.show_alert = true
+                }
+                this.public_create_folder_dialog = false
+                setTimeout(() => {
+                    this.public_new_item_name = ""
+                }, 300)
+            })
+        },
+        public_context_menu: function(e, folder) {
+            this.public_context_x = e.clientX
+            this.public_context_y = e.clientY
+            this.public_context_menu_dialog = true
+            this.public_item_name = folder
+        },
+        public_rename_item: function() {
+            if (this.public_new_item_name === "" || this.public_new_item_name === null) {
+                app.alert_status = "Invalid folder name"
+                app.show_alert = true
+                return
+            }
+
+            axios.post("/rename_item", {
+                path: app.current_dir,
+                previous: this.public_item_name,
+                name: app.public_new_item_name
+            }).then((response) => {
+                if (response["data"]["INFO"]) {
+                    app.alert_status = response["data"]["INFO"]
+                    app.show_alert = true
+                } else {
+                    app.alert_status = response["data"]["ERROR"]
+                    app.show_alert = true
+                }
+                app.public_new_item_name = ""
+                app.public_item_name = ""
+                app.public_rename_item_dialog = false
+                app.list_dir(app.current_dir)
+            })
+        },
+        public_show_rename_item_dialog: function() {
+            this.public_rename_item_dialog = true
+            this.public_new_item_name = this.public_item_name
+        },
+        public_delete_item: function() {
+            axios.post("/delete_item", {
+                path: app.current_dir,
+                name: app.public_item_name
+            }).then((response) => {
+                if (response["data"]["INFO"]) {
+                    app.alert_status = "Deleted!"
+                    app.show_alert = true
+                } else {
+                    app.alert_status = "Folder does not exist"
+                }
+                app.public_item_name = ""
+                app.public_delete_item_dialog = false
+                app.list_dir(app.current_dir)
+            })
         },
         admin_close_dialog: function() {
             this.admin_add_user_dialog = false

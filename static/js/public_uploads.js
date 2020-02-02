@@ -163,8 +163,7 @@ let vue_upload = new Vue({
             axios.post("/delete_folder", {
                 path: vue_upload.current_dir,
                 name: vue_upload.selected_folder
-            })
-                .then(function(response) {
+            }).then(function(response) {
                     if (response["data"]["INFO"]) {
                         vue_upload.$vs.notify({color: "dark", title: "Folder deleted!"})
                     }

@@ -15,13 +15,18 @@
                                 <v-icon>home</v-icon>
                             </v-btn>
                         </v-col>
+                        <v-col style="flex-grow: 0">
+                            <v-btn v-on:click.stop="public_create_folder_dialog = true" radius color="dark" icon>
+                                <v-icon>create_new_folder</v-icon>
+                            </v-btn>
+                        </v-col>
                     </v-row>
                 </v-subheader>
                 <v-divider style="width: 90%; margin: auto"></v-divider>
                 <div v-for="item in all_items">
                     <v-row v-if="item.is_file" no-gutters justify="center" align="center">
                         <v-col cols="10">
-                            <a :href="get_file_link(item.name)" download>
+                            <a :href="get_file_link(item.name)" download @contextmenu.prevent="public_context_menu($event, item.name)">
                                 <v-list-item :key="item.name" @click="">
                                     <v-list-item-avatar>
                                         <v-icon class="blue white--text">assignment</v-icon>
@@ -41,10 +46,9 @@
                             </v-btn>
                         </v-col>
                     </v-row>
-
                     <v-row v-else no-gutters>
                         <v-col cols="12">
-                            <v-list-item :key="item.name" @click="navigate_to(item.name)">
+                            <v-list-item :key="item.name" @click="navigate_to(item.name)" @contextmenu.prevent="public_context_menu($event, item.name)">
                                 <v-list-item-avatar>
                                     <v-icon class="yellow white--text">folder</v-icon>
                                 </v-list-item-avatar>
@@ -78,3 +82,51 @@
         </v-card>
     </v-col>
 </v-row>
+
+<!-- Create Folder -->
+<v-dialog v-model="public_create_folder_dialog" max-width="300">
+    <v-card>
+        <v-card-title>Create new folder</v-card-title>
+        <v-card-actions>
+            <v-text-field v-model="public_new_item_name" label="Folder name"></v-text-field>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="public_create_folder">Create</v-btn>
+        </v-card-actions>
+    </v-card>
+</v-dialog>
+
+<!-- Rename Folder -->
+<v-dialog v-model="public_rename_item_dialog" max-width="300">
+    <v-card>
+        <v-card-title>Rename folder</v-card-title>
+        <v-card-actions>
+            <v-text-field v-model="public_new_item_name" label="Folder name"></v-text-field>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="public_rename_item">Rename</v-btn>
+        </v-card-actions>
+    </v-card>
+</v-dialog>
+
+<!-- Delete Folder -->
+<v-dialog v-model="public_delete_item_dialog" max-width="300">
+    <v-card>
+        <v-card-title>Really?</v-card-title>
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="public_rename_item_dialog = false">Nope</v-btn>
+            <v-btn color="blue darken-1" text @click="public_delete_item">Yup</v-btn>
+        </v-card-actions>
+    </v-card>
+</v-dialog>
+
+<!-- Context Menu -->
+<v-menu v-model="public_context_menu_dialog" :position-x="public_context_x" :position-y="public_context_y" offset-y absolute>
+    <v-list>
+        <v-list-item @click="public_delete_item_dialog = true">
+            Delete
+        </v-list-item>
+        <v-list-item @click="public_show_rename_item_dialog">
+            Rename
+        </v-list-item>
+    </v-list>
+</v-menu>

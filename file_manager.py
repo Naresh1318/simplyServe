@@ -146,38 +146,41 @@ def create_folder():
         os.mkdir(os.path.join(abs_dir_path, folder_name))
         return jsonify({"INFO": True})
     except FileExistsError as e:
-        return jsonify({"ERROR": e})
+        return jsonify({"ERROR": "Folder exists"})
 
 
-@bp.route("/rename_folder", methods=["POST"])
+@bp.route("/rename_item", methods=["POST"])
 @login_required
-def rename_folder():
+def rename_item():
     if current_user.email != admin_email:
         return jsonify({"ERROR": "User not admin"})
     dir_path = request.json["path"].split(".")[1]
     previous_name = request.json["previous"]
-    folder_name = request.json["name"]
+    item_name = request.json["name"]
     abs_dir_path = os.path.join(app.config["UPLOAD_FOLDER"], dir_path)
     previous_path = os.path.join(abs_dir_path, previous_name)
-    new_path = os.path.join(abs_dir_path, folder_name)
+    new_path = os.path.join(abs_dir_path, item_name)
     try:
         os.rename(previous_path, new_path)
-        return jsonify({"INFO": True})
+        return jsonify({"INFO": "Item renamed"})
     except FileNotFoundError as e:
-        return jsonify({"ERROR": e})
+        return jsonify({"ERROR": "Item not found or already exists"})
 
 
-@bp.route("/delete_folder", methods=["POST"])
+@bp.route("/delete_item", methods=["POST"])
 @login_required
-def delete_folder():
+def delete_item():
     if current_user.email != admin_email:
         return jsonify({"ERROR": "User not admin"})
     dir_path = request.json["path"].split(".")[1]
-    folder_name = request.json["name"]
+    item_name = request.json["name"]
     abs_dir_path = os.path.join(app.config["UPLOAD_FOLDER"], dir_path)
-    path = os.path.join(abs_dir_path, folder_name)
+    path = os.path.join(abs_dir_path, item_name)
     try:
-        shutil.rmtree(path)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
+        else:
+            os.remove(path)
         return jsonify({"INFO": True})
-    except FileNotFoundError as e:
-        return jsonify({"ERROR": e})
+    except (FileNotFoundError, NotADirectoryError) as e:
+        return jsonify({"ERROR": "Item not fount"})
