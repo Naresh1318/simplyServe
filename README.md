@@ -2,14 +2,14 @@
 
 <p align=center>
     <img src="https://raw.githubusercontent.com/Naresh1318/simplyServe/master/static/img/icon.png?token=ADHNPQPRG4VR55RPZ7REC3K5GI5YE" alt="simplyServe" width=20%/>
-    <p align="center"> Serve directories along with docs </p>
+    <p align="center"> <b>Serve directories along with docs</b> </p>
 </p>
 
 # The heck is this?
 
 <p align=center>
     <img src="https://files.naresh1318.com/public/simplyServe/login.png" alt="Demo"/>
-    <p align="center"> Login </p>
+    <p align="center"> <b>Login</b> </p>
 </p>
 
 
@@ -23,14 +23,14 @@ Here are some of its features:
 
 1. User access management
 <p align=center>
-    <img src="https://files.naresh1318.com/public/simplyServe/admin.png" alt="Demo"/>
-    <p align="center"> Manage users </p>
+    <img src="https://files.naresh1318.com/public/simplyServe/admin.png" alt="Demo" width="50%"/>
+    <p align="center"> <b>Manage users</b> </p>
 </p>
 2. Multi-file download
 3. Document each directory using beautiful charts from chart.js and have it rendered along side each directory
 <p align=center>
-    <img src="https://files.naresh1318.com/public/simplyServe/home.png" alt="Demo"/>
-    <p align="center"> Show docs along side files and directories </p>
+    <img src="https://files.naresh1318.com/public/simplyServe/home.png" alt="Demo" width="60%"/>
+    <p align="center"> <b>Show docs along side files and directories</b> </p>
 </p>
 4. Easy to setup docker image 
 
