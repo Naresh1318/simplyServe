@@ -8,7 +8,7 @@
 # The heck is this?
 
 <p align=center>
-    <img src="https://github.com/Naresh1318/simplyServe/raw/master/static/img/demo.gif" alt="Demo"/>
+    <img src="https://files.naresh1318.com/public/simplyServe/login.png" alt="Demo"/>
 </p>
 
 
@@ -21,8 +21,16 @@ server and allow restricted access to it.
 Here are some of its features:
 
 1. User access management
+<p align=center>
+    <img src="https://files.naresh1318.com/public/simplyServe/admin.png" alt="Demo"/>
+    <p align="center"> Manage users </p>
+</p>
 2. Multi-file download
-3. Document each directory using beautiful charts from chart.js and have it rendered along side each directory 
+3. Document each directory using beautiful charts from chart.js and have it rendered along side each directory
+<p align=center>
+    <img src="https://files.naresh1318.com/public/simplyServe/home.png" alt="Demo"/>
+    <p align="center"> Show docs along side files and directories </p>
+</p>
 4. Easy to setup docker image 
 
 # Use??
