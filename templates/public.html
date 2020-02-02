@@ -25,7 +25,7 @@
                 <div v-for="item in all_items">
                     <v-row v-if="item.is_file" no-gutters justify="center" align="center">
                         <v-col cols="10">
-                            <a :href="get_file_link(item.name)" download @contextmenu.prevent="public_context_menu($event, item.name)">
+                            <a :href="item.link" @contextmenu.prevent="public_context_menu($event, item.name)" download>
                                 <v-list-item :key="item.name" @click="">
                                     <v-list-item-avatar>
                                         <v-icon class="blue white--text">assignment</v-icon>
