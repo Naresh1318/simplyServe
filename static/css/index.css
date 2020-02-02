@@ -3,12 +3,13 @@ html {
     overflow-x: hidden;
 }
 ::-webkit-scrollbar {
-    width: 0px;  /* Remove scrollbar space */
+    width: 5px;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */
+    color: black;
 }
 /* Optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-    background: #FFFFFF;
+    background: #aeaeae;
 }
 
 button {
@@ -37,9 +38,27 @@ a:visited {
 }
 
 .nav-bar-icon-card {
-    box-shadow: 0 0 50px -10px #BDBDBD !important;
+    box-shadow: 0 0 100px -1px #BDBDBD !important;
     background-color: #F5F5F5 !important;
     padding: 0 5px;
+}
+
+.nav-bar-active-card {
+    box-shadow: 0 0 100px -1px #BDBDBD !important;
+    background-color: #F5F5F5 !important;
+    padding: 0 5px;
+    margin: 25px 0;
+    width: 56px !important;
+    height: 56px
+}
+
+.nav-bar-inactive-card {
+    padding: 0 5px;
+    background-color: rgba(0, 0, 0, 0) !important;
+    box-shadow: 0 0 !important;
+    margin: 25px 0;
+    width: 56px !important;
+    height: 56px
 }
 
 .file-manager-theme {

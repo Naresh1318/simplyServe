@@ -3,6 +3,7 @@
 {% block title %} Login {% endblock %}
 
 {% block content %}
+    <link rel="stylesheet" type="text/css" href="/static/css/login.css">
 
 <div id="app">
     <v-app id="app">
@@ -15,29 +16,31 @@
                     </v-col>
 
                     <v-col cols="12" md="4">
-                        <v-row>
-                            <v-col cols="12">
-                               <h2 style="text-align: center">SimplyServe</h2>
-                            </v-col>
-                        </v-row>
+                        <v-card class="login-form pa-5">
+                            <v-row>
+                                <v-col cols="12">
+                                    <h2 style="text-align: center">SimplyServe</h2>
+                                </v-col>
+                            </v-row>
 
-                        <v-form>
-                            <v-row>
-                                <v-col cols="12">
-                                    <v-text-field v-model="email" label="Email" name="email" prepend-icon="email" type="email" color="dark"/>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="12">
-                                    <v-text-field v-model="password" id="password" label="Passsword" name="password" prepend-icon="lock" type="password" color="dark"/>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col cols="3" style="margin: auto">
-                                    <v-btn @click="login" dark>Login</v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-form>
+                            <v-form>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="email" label="Email" name="email" prepend-icon="email" type="email" color="dark" solo/>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-text-field v-model="password" id="password" label="Passsword" name="password" prepend-icon="lock" type="password" color="dark" solo/>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="3" style="margin: auto">
+                                        <v-btn @click="login">Login</v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-form>
+                        </v-card>
                     </v-col>
                 </v-row>
 

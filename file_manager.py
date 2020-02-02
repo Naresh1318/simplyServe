@@ -59,6 +59,7 @@ def ls():
 
 
 @bp.route("/linked_dir/<path:path>")
+@login_required
 def serve_file(path):
     path = os.path.join("./linked_dir", path)
     if ".." in path or "~" in path:
@@ -71,6 +72,7 @@ def serve_file(path):
 
 
 @bp.route("/server_name", methods=["GET"])
+@login_required
 def server_name():
     return jsonify({"server_name": os.getenv("SERVER_NAME")})
 
@@ -139,7 +141,7 @@ def uploads_ls():
 def create_folder():
     if current_user.email != admin_email:
         return jsonify({"ERROR": "User not admin"})
-    dir_path = request.json["path"].split(".")[1]
+    dir_path = request.json["path"].split(".")[1][1:]
     folder_name = request.json["name"]
     abs_dir_path = os.path.join(app.config["UPLOAD_FOLDER"], dir_path)
     try:
@@ -154,7 +156,7 @@ def create_folder():
 def rename_item():
     if current_user.email != admin_email:
         return jsonify({"ERROR": "User not admin"})
-    dir_path = request.json["path"].split(".")[1]
+    dir_path = request.json["path"].split(".")[1][1:]
     previous_name = request.json["previous"]
     item_name = request.json["name"]
     abs_dir_path = os.path.join(app.config["UPLOAD_FOLDER"], dir_path)
@@ -172,7 +174,7 @@ def rename_item():
 def delete_item():
     if current_user.email != admin_email:
         return jsonify({"ERROR": "User not admin"})
-    dir_path = request.json["path"].split(".")[1]
+    dir_path = request.json["path"].split(".")[1][1:]
     item_name = request.json["name"]
     abs_dir_path = os.path.join(app.config["UPLOAD_FOLDER"], dir_path)
     path = os.path.join(abs_dir_path, item_name)

@@ -1,6 +1,5 @@
-<div style="float: right">Welcome <b>{{ username }}!</b></div>
 <v-row align="center">
-    <v-col cols="4">
+    <v-col cols="12" md="4">
         <v-card class="file-manager-theme">
             <v-list class="file-manager-item" two-line subheader>
                 <v-subheader>
@@ -63,7 +62,7 @@
         </v-card>
     </v-col>
 
-    <v-col cols="8">
+    <v-col cols="12" md="8">
         <v-card style="border: 0" outlined>
             <v-row align="center" margin="center">
                 <v-col cols="12" style="text-align: center">
@@ -87,10 +86,10 @@
 <v-dialog v-model="public_create_folder_dialog" max-width="300">
     <v-card>
         <v-card-title>Create new folder</v-card-title>
-        <v-card-actions>
-            <v-text-field v-model="public_new_item_name" label="Folder name"></v-text-field>
+        <v-card-actions class="pa-5">
+            <v-text-field color="black darken-1" v-model="public_new_item_name" label="Folder name"></v-text-field>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="public_create_folder">Create</v-btn>
+            <v-btn color="black darken-1" text @click="public_create_folder">Create</v-btn>
         </v-card-actions>
     </v-card>
 </v-dialog>
@@ -99,10 +98,10 @@
 <v-dialog v-model="public_rename_item_dialog" max-width="300">
     <v-card>
         <v-card-title>Rename folder</v-card-title>
-        <v-card-actions>
-            <v-text-field v-model="public_new_item_name" label="Folder name"></v-text-field>
+        <v-card-actions class="pa-5">
+            <v-text-field color="black darken-1" v-model="public_new_item_name" label="Folder name"></v-text-field>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="public_rename_item">Rename</v-btn>
+            <v-btn color="black darken-1" text @click="public_rename_item">Rename</v-btn>
         </v-card-actions>
     </v-card>
 </v-dialog>
@@ -111,10 +110,10 @@
 <v-dialog v-model="public_delete_item_dialog" max-width="300">
     <v-card>
         <v-card-title>Really?</v-card-title>
-        <v-card-actions>
+        <v-card-actions class="pa-5">
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="public_rename_item_dialog = false">Nope</v-btn>
-            <v-btn color="blue darken-1" text @click="public_delete_item">Yup</v-btn>
+            <v-btn color="black darken-1" text @click="public_rename_item_dialog = false">No</v-btn>
+            <v-btn color="black darken-1" text @click="public_delete_item">Yes</v-btn>
         </v-card-actions>
     </v-card>
 </v-dialog>
