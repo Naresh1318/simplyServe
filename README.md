@@ -19,20 +19,20 @@ services out there and provide additional document that explain how data is orga
 OR, you can host it yourself. As you may have guessed, simplyServe lets you host file on a 
 server and allow restricted access to it. 
 
-Here are some of its features:
+**Here are some of its features:**
 
-1. User access management
+1. **User access management**
 <p align=center>
     <img src="https://files.naresh1318.com/public/simplyServe/admin.png" alt="Demo" width="50%"/>
     <p align="center"> <b>Manage users</b> </p>
 </p>
-2. Multi-file download
-3. Document each directory using beautiful charts from chart.js and have it rendered along side each directory
+2. **Multi-file download**
+3. **Document each directory using beautiful charts from chart.js and have it rendered along side each directory**
 <p align=center>
     <img src="https://files.naresh1318.com/public/simplyServe/home.png" alt="Demo" width="60%"/>
     <p align="center"> <b>Show docs along side files and directories</b> </p>
 </p>
-4. Easy to setup docker image 
+4. **Easy to setup docker image** 
 
 # Use??
 
