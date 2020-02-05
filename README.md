@@ -26,13 +26,16 @@ server and allow restricted access to it.
     <img src="https://files.naresh1318.com/public/simplyServe/admin.png" alt="Demo" width="50%"/>
     <p align="center"> <b>Manage users</b> </p>
 </p>
+
 2. **Multi-file download**
-3. **Document each directory using beautiful charts from chart.js and have it rendered along side each directory**
+
+3. **Document each directory using beautiful charts from chart.js**
 <p align=center>
     <img src="https://files.naresh1318.com/public/simplyServe/home.png" alt="Demo" width="60%"/>
     <p align="center"> <b>Show docs along side files and directories</b> </p>
 </p>
-4. **Easy to setup docker image** 
+
+4. **Easy to setup docker image**
 
 # Use??
 
@@ -103,3 +106,11 @@ Here's I'll explain how you'd serve `/home/naresh/sleep` directory:
    This serves `/home/naresh/sleep`, creates a database of users in `/home/naresh/simplyServe/database/` and port farwards the server output into port 4000 on the host machine.
 
 6. Finally, go to `localhost:4000` on your browser and login as admin
+
+## Recent update
+
+**v0.2.1**
+* Hard to use (atleast for me) Vuesax replaced with Vuetify
+* I tried putting in some thought this time while designing the UI
+* File manager bug that wasn't passing the right error message has been fix
+* You can now right click to get a context menu in the public page :see_no_evil:
