@@ -1,5 +1,5 @@
 wheel
-Flask==1.0.3
+Flask==2.3.2
 Flask-Login==0.4.1
 Flask-SQLAlchemy==2.4.0
 uWSGI==2.0.18
